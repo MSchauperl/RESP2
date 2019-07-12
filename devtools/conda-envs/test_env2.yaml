@@ -3,6 +3,7 @@ channels:
   - openeye
   - rdkit
   - omnia
+  - psi4
 
 dependencies:
     # Base depends
@@ -15,9 +16,17 @@ dependencies:
   - rdkit
   - openforcefield
   - pint
+  - psi4
+  - pymbar
+  - forcebalance
+  - pandas
+  - pyyaml
+  - matplotlib
+  - future
 
     # Testing
   - pytest
   - pytest-cov
+  - codecov
 
 
