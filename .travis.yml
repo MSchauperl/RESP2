@@ -40,7 +40,7 @@ install:
     # Build and install package
   - python setup.py develop --no-deps
     # Install respyte
-  - source source devtools/travis-ci/after_install.sh
+  - source devtools/travis-ci/after_install.sh
 
 
 script:
