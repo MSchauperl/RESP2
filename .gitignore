@@ -100,3 +100,12 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+
+#gromacs output files
+genbox.err
+genbox.out
+genbox.pdb
+data/
+psi.*
+timer.dat

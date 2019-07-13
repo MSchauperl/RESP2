@@ -4,9 +4,10 @@ channels:
   - rdkit
   - omnia
   - psi4
-
+  - bioconda
+  - openbabel
 dependencies:
-    # Base depends
+# Base depends
   - python
   - pip
   - typing
@@ -23,8 +24,11 @@ dependencies:
   - pyyaml
   - matplotlib
   - future
+  - openmoltools
+  - gromacs
+  - openbabel
 
-    # Testing
+# Testing
   - pytest
   - pytest-cov
   - codecov
