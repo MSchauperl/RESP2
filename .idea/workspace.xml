@@ -1,26 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/resp2/resp2.py" line="294" />
+    <bookmark url="file://$PROJECT_DIR$/resp2/resp2.py" line="248" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c2a52a68-a340-4f6e-bce4-dacaa803573b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/R_User_Library.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/resp2.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resp2/correct_atomypes_mol2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resp2/create_mol2_pdb.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resp2/data/CCO.smi" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resp2/data/ETH-box.pdb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resp2/data/ETH-conformers.mol2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resp2/data/ETH.mol2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resp2/data/ETH.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/devtools/conda-envs/test_env.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/devtools/conda-envs/test_env.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resp2/data/look_and_say.dat" beforeDir="false" afterPath="$PROJECT_DIR$/resp2/data/look_and_say.dat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resp2/correct_atomypes_mol2.py" beforeDir="false" afterPath="$PROJECT_DIR$/resp2/charge_calculation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resp2/resp2.py" beforeDir="false" afterPath="$PROJECT_DIR$/resp2/resp2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,8 +22,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resp2/resp2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
-              <caret line="117" lean-forward="true" selection-start-line="117" selection-end-line="117" />
+            <state relative-caret-position="426">
+              <caret line="439" selection-start-line="439" selection-end-line="439" />
               <folding>
                 <element signature="e#83#97#0" expanded="true" />
               </folding>
@@ -43,70 +32,65 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resp2/data/ETH-conformers_0.in">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="44" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resp2/data/ETH-confermer_opt_1.xyz">
+        <entry file="file://$PROJECT_DIR$/example/ethanol-liquid/ETH_R1_200.mol2">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resp2/data/ETH-confermer_opt_0.xyz">
+        <entry file="file://$PROJECT_DIR$/example/ethanol-RESP1/resp_output/mol1_conf1.mol2">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resp2/data/ETH-conformers_1.in">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/devtools/conda-envs/test_env.yaml">
+        <entry file="file://$PROJECT_DIR$/example/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" selection-start-line="9" selection-end-line="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resp2/data/ETH-conformers_0.mol2">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resp2/data/ETH-conformers_1.mol2">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" selection-start-line="26" selection-end-line="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resp2/create_mol2_pdb.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="133" column="29" selection-start-line="133" selection-start-column="29" selection-end-line="133" selection-end-column="29" />
+            <state relative-caret-position="90">
+              <caret line="6" column="12" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
               <folding>
-                <element signature="e#195#237#0" expanded="true" />
+                <element signature="e#0#12#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resp2/data/ETH-conformers.mol2_0">
+        <entry file="file://$PROJECT_DIR$/example/ethanol-liquid/ETH_R2_50.mol2">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example/ethanol-RESP2LIQUID/resp_output/mol1_conf1.mol2">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example/Untitled.ipynb">
+          <provider selected="true" editor-type-id="jupyter-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resp2/data/ethanol-liquid/data.csv">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resp2/data/ethanol-liquid/ETH_R1_200.mol2">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resp2/data/ethanol-liquid/ETH_R1_100.mol2">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>number_of</find>
+      <find>molecule</find>
+      <find>create</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -114,28 +98,29 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resp2/correct_atomypes_mol2.py" />
         <option value="$PROJECT_DIR$/resp2/data/look_and_say.dat" />
         <option value="$PROJECT_DIR$/resp2/create_mol2_pdb.py" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/devtools/conda-envs/test_env.yaml" />
         <option value="$PROJECT_DIR$/resp2/data/ETH-conformers_0.in" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/resp2/correct_atomypes_mol2.py" />
+        <option value="$PROJECT_DIR$/resp2/charge_calculation.py" />
+        <option value="$PROJECT_DIR$/example/test.py" />
         <option value="$PROJECT_DIR$/resp2/resp2.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-68" />
+    <option name="x" value="-1" />
     <option name="y" value="-4" />
-    <option name="width" value="1853" />
-    <option name="height" value="1083" />
+    <option name="width" value="1922" />
+    <option name="height" value="1085" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -146,29 +131,13 @@
             <path>
               <item name="resp2" type="b2602c69:ProjectViewProjectNode" />
               <item name="resp2" type="462c0819:PsiDirectoryNode" />
-              <item name="devtools" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="resp2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="resp2" type="462c0819:PsiDirectoryNode" />
-              <item name="devtools" type="462c0819:PsiDirectoryNode" />
-              <item name="conda-envs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="resp2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="resp2" type="462c0819:PsiDirectoryNode" />
-              <item name="resp2" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="resp2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="resp2" type="462c0819:PsiDirectoryNode" />
-              <item name="resp2" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="example" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -191,7 +160,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.resp2">
+  <component name="RunManager" selected="Python.test">
     <configuration name="correct_atomypes_mol2" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="resp2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -205,7 +174,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/resp2/correct_atomypes_mol2.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/resp2/charge_calculation.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -236,12 +205,36 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="resp2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/example" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/example/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.correct_atomypes_mol2" />
       <item itemvalue="Python.resp2" />
+      <item itemvalue="Python.test" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test" />
         <item itemvalue="Python.resp2" />
         <item itemvalue="Python.correct_atomypes_mol2" />
       </list>
@@ -258,18 +251,30 @@
       <option name="presentableId" value="Default" />
       <updated>1562895991583</updated>
       <workItem from="1562895994726" duration="5034000" />
-      <workItem from="1562947627196" duration="23576000" />
+      <workItem from="1562947627196" duration="24153000" />
+      <workItem from="1563462977444" duration="3469000" />
+      <workItem from="1563474007766" duration="10130000" />
+      <workItem from="1563488069037" duration="2580000" />
+      <workItem from="1563912980850" duration="3981000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28610000" />
+    <option name="totallyTimeSpent" value="49347000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="-4" width="1920" height="1084" extended-state="6" />
-    <editor active="true" />
+    <frame x="-1" y="-4" width="1922" height="1085" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24386339" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25453576" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -278,13 +283,14 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39959225" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32925585" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32983193" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32925585" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32983193" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.3282365" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32983193" />
+      <window_info anchor="bottom" id="Jupyter" order="13" weight="0.32925585" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -299,7 +305,8 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/resp2$correct_atomypes_mol2.coverage" NAME="correct_atomypes_mol2 Coverage Results" MODIFIED="1562900039827" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/resp2" />
-    <SUITE FILE_PATH="coverage/resp2$resp2.coverage" NAME="resp2 Coverage Results" MODIFIED="1562976483044" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/resp2" />
+    <SUITE FILE_PATH="coverage/resp2$test.coverage" NAME="test Coverage Results" MODIFIED="1563915288738" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
+    <SUITE FILE_PATH="coverage/resp2$resp2.coverage" NAME="resp2 Coverage Results" MODIFIED="1563489722971" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/resp2" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/test.py">
@@ -317,13 +324,6 @@
     <entry file="file://$PROJECT_DIR$/resp2/data/look_and_say.dat">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/resp2/correct_atomypes_mol2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="711">
-          <caret line="178" column="7" selection-start-line="178" selection-start-column="7" selection-end-line="178" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -333,13 +333,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resp2/data/ETH.mol2">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="601">
-          <caret line="107" column="9" selection-start-line="107" selection-start-column="9" selection-end-line="107" selection-end-column="9" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resp2/data/ethanol-liquid/MOL.smi">
       <provider selected="true" editor-type-id="text-editor" />
@@ -378,10 +371,69 @@
     <entry file="file://$PROJECT_DIR$/resp2/data/ETH-conformers_0.mol2">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/resp2/data/ETH-conformers_1.xyz">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resp2/data/ETH-conformers_0.xyz">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resp2/data/ethanol-RESP1/input/respyte.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="526">
+          <caret line="109" column="4" selection-start-line="109" selection-start-column="4" selection-end-line="109" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/RESP2/lib/python3.6/site-packages/openforcefield/typing/engines/smirnoff/parameters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="2550" column="4" selection-start-line="2550" selection-start-column="4" selection-end-line="2550" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resp2/data/ethanol-RESP2GAS/input/respyte.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resp2/data/ethanol-RESP2GAS/input/input.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resp2/data/ethanol-RESP2GAS/input/molecules/mol1/conf1/mol1_conf1.xyz">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resp2/data/ethanol-RESP2LIQUID/input/molecules/mol1/conf1/mol1_conf1.xyz">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resp2/data/ethanol-RESP1/input/input.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="8" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resp2/data/ETH-confermer_opt_1.xyz">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resp2/data/ETH-confermer_opt_0.xyz">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/resp2/data/ETH-conformers_1.mol2">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
           <caret line="26" selection-start-line="26" selection-end-line="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resp2/data/ETH-conformers_0.in">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="44" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
         </state>
       </provider>
     </entry>
@@ -392,32 +444,74 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resp2/data/ETH-conformers_1.xyz">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resp2/data/ETH-conformers_0.xyz">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/resp2/data/ETH-conformers_1.in">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/resp2/data/ETH-confermer_opt_1.xyz">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resp2/data/ETH-confermer_opt_0.xyz">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resp2/data/ETH-conformers_0.in">
+    <entry file="file://$PROJECT_DIR$/resp2/ETH_100.mol2" />
+    <entry file="file://$PROJECT_DIR$/resp2/charge_calculation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="44" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
+        <state relative-caret-position="495">
+          <caret line="99" column="21" selection-start-line="99" selection-start-column="21" selection-end-line="99" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resp2/data/ethanol-liquid/ETH_R2_0.mol2">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resp2/data/ethanol-liquid/ETH_R2_100.mol2">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resp2/data/ethanol-liquid/ETH_100.mol2">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="87" selection-start-line="10" selection-start-column="87" selection-end-line="10" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/ethanol-liquid/ETH.mol2">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/Untitled.ipynb">
+      <provider selected="true" editor-type-id="jupyter-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resp2/data/ethanol-liquid/data.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resp2/data/ethanol-liquid/ETH_R1_200.mol2">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resp2/data/ethanol-liquid/ETH_R1_100.mol2">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/ethanol-RESP2LIQUID/resp_output/result.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/ethanol-RESP2LIQUID/resp_output/mol1_conf1.mol2">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/ethanol-liquid/ETH_R1_200.mol2">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/ethanol-RESP1/resp_output/mol1_conf1.mol2">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/ethanol-liquid/ETH_R2_50.mol2">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="12" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resp2/resp2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="117" lean-forward="true" selection-start-line="117" selection-end-line="117" />
+        <state relative-caret-position="426">
+          <caret line="439" selection-start-line="439" selection-end-line="439" />
           <folding>
             <element signature="e#83#97#0" expanded="true" />
           </folding>
