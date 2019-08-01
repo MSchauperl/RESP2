@@ -154,7 +154,7 @@ def calculate_respyte(type='RESP1', name='', resname='MOL', number_of_conformers
     return 0
 
 
-def create_respyte_input_files(type='RESP1', name='',  number_of_conformers=1):
+def create_respyte_input_files(type='RESP1', name='', resname='MOL', number_of_conformers=1):
     """
     This function performs the psi4 calculation and the respyte calculations and checks if the
     calculation was successful.
