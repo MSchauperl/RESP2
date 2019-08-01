@@ -1,0 +1,423 @@
+
+    -----------------------------------------------------------------------
+          Psi4: An Open-Source Ab Initio Electronic Structure Package
+                               Psi4 1.3.2 release
+
+                         Git: Rev {HEAD} ecbda83 
+
+
+    R. M. Parrish, L. A. Burns, D. G. A. Smith, A. C. Simmonett,
+    A. E. DePrince III, E. G. Hohenstein, U. Bozkaya, A. Yu. Sokolov,
+    R. Di Remigio, R. M. Richard, J. F. Gonthier, A. M. James,
+    H. R. McAlexander, A. Kumar, M. Saitow, X. Wang, B. P. Pritchard,
+    P. Verma, H. F. Schaefer III, K. Patkowski, R. A. King, E. F. Valeev,
+    F. A. Evangelista, J. M. Turney, T. D. Crawford, and C. D. Sherrill,
+    J. Chem. Theory Comput. 13(7) pp 3185--3197 (2017).
+    (doi: 10.1021/acs.jctc.7b00174)
+
+
+                         Additional Contributions by
+    P. Kraus, H. Kruse, M. H. Lechner, M. C. Schieber, R. A. Shaw,
+    A. Alenaizan, R. Galvelis, Z. L. Glick, S. Lehtola, and J. P. Misiewicz
+
+    -----------------------------------------------------------------------
+
+
+    Psi4 started on: Tuesday, 23 July 2019 05:21PM
+
+    Process ID: 30327
+    Host:       michael-HP
+    PSIDATADIR: /home/michael/anaconda3/envs/RESP2/share/psi4
+    Memory:     500.0 MiB
+    Threads:    1
+    
+  ==> Input File <==
+
+--------------------------------------------------------------------------
+memory 12 gb
+molecule meoh {
+noreorient
+nocom
+0 1
+C     1.0710    -0.2620    -0.0070
+C     1.9170     0.9160    -0.4230
+O     1.5020     1.3070    -1.7150
+H     0.0100     0.0150     0.0010
+H     1.2000    -1.0900    -0.7140
+H     1.3500    -0.6100     0.9940
+H     2.9840     0.6330    -0.4120
+H     1.7940     1.7400     0.3030
+H     2.0390     2.0580    -1.9840
+}
+set {
+  basis aug-cc-pV(D+d)Z
+  pcm true
+  pcm_scf_type total
+}
+pcm = {
+  Units = Angstrom
+  Medium {
+  SolverType = CPCM # IEFPCM| CPCM
+  Solvent = water
+  }
+  Cavity {
+  RadiiSet = Bondi # Bondi| UFF| Allinger
+  Type = GePol
+  Scaling = True # radii for the spheres will be scaled by 1.2
+  Area = 0.3
+  Mode = Implicit
+  }
+}
+E,wfn = prop('PW6B95' , properties = ['GRID_ESP', 'GRID_FIELD'], return_wfn=True)
+--------------------------------------------------------------------------
+
+  Memory set to  11.176 GiB by Python driver.
+
+*** tstart() called on michael-HP
+*** at Tue Jul 23 17:21:46 2019
+
+   => Loading Basis Set <=
+
+    Name: AUG-CC-PV(D+D)Z
+    Role: ORBITAL
+    Keyword: BASIS
+    atoms 1-2 entry C          line   198 file /home/michael/anaconda3/envs/RESP2/share/psi4/basis/aug-cc-pv_dpd_z.gbs 
+    atoms 3   entry O          line   270 file /home/michael/anaconda3/envs/RESP2/share/psi4/basis/aug-cc-pv_dpd_z.gbs 
+    atoms 4-9 entry H          line    56 file /home/michael/anaconda3/envs/RESP2/share/psi4/basis/aug-cc-pv_dpd_z.gbs 
+
+
+         ---------------------------------------------------------
+                                   SCF
+               by Justin Turney, Rob Parrish, Andy Simmonett
+                          and Daniel G. A. Smith
+                              RKS Reference
+                        1 Threads,  11444 MiB Core
+         ---------------------------------------------------------
+
+  ==> Geometry <==
+
+    Molecular point group: c1
+    Full point group: C1
+
+    Geometry (in Angstrom), charge = 0, multiplicity = 1:
+
+       Center              X                  Y                   Z               Mass       
+    ------------   -----------------  -----------------  -----------------  -----------------
+         C            1.071000000000    -0.262000000000    -0.007000000000    12.000000000000
+         C            1.917000000000     0.916000000000    -0.423000000000    12.000000000000
+         O            1.502000000000     1.307000000000    -1.715000000000    15.994914619570
+         H            0.010000000000     0.015000000000     0.001000000000     1.007825032230
+         H            1.200000000000    -1.090000000000    -0.714000000000     1.007825032230
+         H            1.350000000000    -0.610000000000     0.994000000000     1.007825032230
+         H            2.984000000000     0.633000000000    -0.412000000000     1.007825032230
+         H            1.794000000000     1.740000000000     0.303000000000     1.007825032230
+         H            2.039000000000     2.058000000000    -1.984000000000     1.007825032230
+
+  Running in c1 symmetry.
+
+  Rotational constants: A =      0.52417  B =      0.08853  C =      0.08043 [cm^-1]
+  Rotational constants: A =  15714.13457  B =   2654.01098  C =   2411.22352 [MHz]
+  Nuclear repulsion =   82.073822397899093
+
+  Charge       = 0
+  Multiplicity = 1
+  Electrons    = 26
+  Nalpha       = 13
+  Nbeta        = 13
+
+  ==> Algorithm <==
+
+  SCF Algorithm Type is DF.
+  DIIS enabled.
+  MOM disabled.
+  Fractional occupation disabled.
+  Guess Type is SAD.
+  Energy threshold   = 1.00e-06
+  Density threshold  = 1.00e-06
+  Integral threshold = 0.00e+00
+
+  ==> Primary Basis <==
+
+  Basis Set: AUG-CC-PV(D+D)Z
+    Blend: AUG-CC-PV(D+D)Z
+    Number of shells: 57
+    Number of basis function: 123
+    Number of Cartesian functions: 129
+    Spherical Harmonics?: true
+    Max angular momentum: 2
+
+  ==> DFT Potential <==
+
+   => Composite Functional: PW6B95 <= 
+
+    PW6B95 Hybrid Meta-GGA XC Functional
+
+    Y. Zhao and D. Truhlar, J. Phys. Chem. A., 109,5656-5667, 2005
+
+
+    Deriv               =              1
+    GGA                 =           TRUE
+    Meta                =           TRUE
+
+    Exchange Hybrid     =           TRUE
+    MP2 Hybrid          =          FALSE
+
+   => Exchange Functionals <=
+
+    0.7200    XC_GGA_X_PW91
+
+   => Exact (HF) Exchange <=
+
+    0.2800               HF 
+
+   => Correlation Functionals <=
+
+    1.0000   XC_MGGA_C_BC95
+
+   => Molecular Quadrature <=
+
+    Radial Scheme          =       TREUTLER
+    Pruning Scheme         =           FLAT
+    Nuclear Scheme         =       TREUTLER
+
+    BS radius alpha        =              1
+    Pruning alpha          =              1
+    Radial Points          =             75
+    Spherical Points       =            302
+    Total Points           =         203850
+    Total Blocks           =           1577
+    Max Points             =            256
+    Max Functions          =            123
+
+   => Loading Basis Set <=
+
+    Name: (AUG-CC-PV(D+D)Z AUX)
+    Role: JKFIT
+    Keyword: DF_BASIS_SCF
+    atoms 1-2 entry C          line   154 file /home/michael/anaconda3/envs/RESP2/share/psi4/basis/aug-cc-pvdz-jkfit.gbs 
+    atoms 3   entry O          line   270 file /home/michael/anaconda3/envs/RESP2/share/psi4/basis/aug-cc-pvdz-jkfit.gbs 
+    atoms 4-9 entry H          line    70 file /home/michael/anaconda3/envs/RESP2/share/psi4/basis/aug-cc-pvdz-jkfit.gbs 
+
+  **PSI4:PCMSOLVER Interface Active**
+
+-----------------------------------------------------------------------
+   PCMSolver: An Open Source API for the Polarizable Continuum Model
+                   PCMSolver 1.2.1+fa7c826
+
+           Git: Branch {HEAD}, Revision {fa7c826}
+
+ R. Di Remigio, A. H. Steindal, K. Mozgawa, V. Weijo, H. Cao, and
+ L. Frediani, Int. J. Quantum Chem., to be submitted
+
+ Source repository: https://github.com/PCMSolver/pcmsolver
+ Documentation: https://pcmsolver.readthedocs.io/
+ PCMSolver initialized on: Tuesday, 23 July 2019 05:21 PM
+-----------------------------------------------------------------------
+
+~~~~~~~~~~ PCMSolver ~~~~~~~~~~
+Using CODATA 2010 set of constants.
+Input parsing done API-side
+========== Cavity 
+Atomic radii set: 
+Cavity type: GePol
+Average tesserae area = 0.3 Ang^2
+Solvent probe radius = 1.385 Ang
+Number of spheres = 9 [initial = 9; added = 0]
+Number of finite elements = 488
+Number of irreducible finite elements = 488
+============ Spheres list (in Angstrom)
+ Sphere   on   Radius   Alpha       X            Y            Z     
+-------- ---- -------- ------- -----------  -----------  -----------
+   1      C    1.7000   1.20     1.071000     -0.262000     -0.007000
+   2      C    1.7000   1.20     1.917000     0.916000     -0.423000
+   3      O    1.5200   1.20     1.502000     1.307000     -1.715000
+   4      H    1.2000   1.20     0.010000     0.015000     0.001000
+   5      H    1.2000   1.20     1.200000     -1.090000     -0.714000
+   6      H    1.2000   1.20     1.350000     -0.610000     0.994000
+   7      H    1.2000   1.20     2.984000     0.633000     -0.412000
+   8      H    1.2000   1.20     1.794000     1.740000     0.303000
+   9      H    1.2000   1.20     2.039000     2.058000     -1.984000
+========== Static solver 
+Solver Type: C-PCM
+PCM matrix hermitivitized
+Correction = 0.00
+============ Medium 
+Medium initialized from solvent built-in data.
+Solvent name:          Water
+Static  permittivity = 78.39
+Optical permittivity = 1.78
+Solvent radius =       1.39 Ang
+.... Inside 
+Green's function type: vacuum
+.... Outside 
+Green's function type: uniform dielectric
+Permittivity = 78.39
+
+  PCM does not make use of molecular symmetry: further calculations in C1 point group.
+  ==> Pre-Iterations <==
+
+   -------------------------------------------------------
+    Irrep   Nso     Nmo     Nalpha   Nbeta   Ndocc  Nsocc
+   -------------------------------------------------------
+     A        123     123       0       0       0       0
+   -------------------------------------------------------
+    Total     123     123      13      13      13       0
+   -------------------------------------------------------
+
+  ==> Integral Setup <==
+
+  DFHelper Memory: AOs need 0.055 GiB; user supplied 6.668 GiB. Using in-core AOs.
+
+  ==> MemDFJK: Density-Fitted J/K Matrices <==
+
+    J tasked:                   Yes
+    K tasked:                   Yes
+    wK tasked:                   No
+    OpenMP threads:               1
+    Memory [MiB]:              6828
+    Algorithm:                 Core
+    Schwarz Cutoff:           1E-12
+    Mask sparsity (%):       0.0000
+    Fitting Condition:        1E-10
+
+   => Auxiliary Basis Set <=
+
+  Basis Set: (AUG-CC-PV(D+D)Z AUX)
+    Blend: AUG-CC-PVDZ-JKFIT
+    Number of shells: 156
+    Number of basis function: 450
+    Number of Cartesian functions: 513
+    Spherical Harmonics?: true
+    Max angular momentum: 3
+
+  Cached 100.0% of DFT collocation blocks in 1.714 [GiB].
+
+  Minimum eigenvalue in the overlap matrix is 1.2170819483E-04.
+  Using Symmetric Orthogonalization.
+
+  SCF Guess: Superposition of Atomic Densities via on-the-fly atomic UHF.
+
+  ==> Iterations <==
+
+                           Total Energy        Delta E     RMS |[F,P]|
+
+   @DF-RKS iter SAD:  -154.62364097946553   -1.54624e+02   0.00000e+00 
+   @DF-RKS iter   1:  -154.88843440838838   -2.64793e-01   6.91424e-03 DIIS
+   @DF-RKS iter   2:  -154.67700452561095    2.11430e-01   8.84349e-03 DIIS
+   @DF-RKS iter   3:  -155.24048761424430   -5.63483e-01   1.11316e-03 DIIS
+   @DF-RKS iter   4:  -155.24653000285187   -6.04239e-03   4.47300e-04 DIIS
+   @DF-RKS iter   5:  -155.24779427806689   -1.26428e-03   5.12327e-05 DIIS
+   @DF-RKS iter   6:  -155.24780951875357   -1.52407e-05   1.83546e-05 DIIS
+   @DF-RKS iter   7:  -155.24781181379305   -2.29504e-06   4.10377e-06 DIIS
+   @DF-RKS iter   8:  -155.24781194377408   -1.29981e-07   2.82136e-07 DIIS
+  Energy and wave function converged.
+
+
+  ==> Post-Iterations <==
+
+    Orbital Energies [Eh]
+    ---------------------
+
+    Doubly Occupied:                                                      
+
+       1A    -19.319474     2A    -10.348917     3A    -10.293198  
+       4A     -1.061922     5A     -0.773375     6A     -0.629645  
+       7A     -0.541036     8A     -0.482463     9A     -0.426673  
+      10A     -0.396881    11A     -0.380581    12A     -0.353883  
+      13A     -0.296149  
+
+    Virtual:                                                              
+
+      14A     -0.001195    15A      0.017784    16A      0.025227  
+      17A      0.027133    18A      0.051571    19A      0.060385  
+      20A      0.076113    21A      0.089161    22A      0.098234  
+      23A      0.099181    24A      0.117011    25A      0.124121  
+      26A      0.127714    27A      0.143308    28A      0.161470  
+      29A      0.165203    30A      0.186227    31A      0.193554  
+      32A      0.199191    33A      0.218714    34A      0.227966  
+      35A      0.246615    36A      0.283767    37A      0.291983  
+      38A      0.293106    39A      0.309316    40A      0.325622  
+      41A      0.341157    42A      0.361268    43A      0.374543  
+      44A      0.378304    45A      0.392247    46A      0.409759  
+      47A      0.414843    48A      0.432771    49A      0.463458  
+      50A      0.464699    51A      0.480764    52A      0.483582  
+      53A      0.503127    54A      0.511461    55A      0.521518  
+      56A      0.554017    57A      0.575395    58A      0.589377  
+      59A      0.597678    60A      0.599821    61A      0.628938  
+      62A      0.639183    63A      0.662968    64A      0.680926  
+      65A      0.698082    66A      0.771639    67A      0.773288  
+      68A      0.810234    69A      0.815293    70A      0.830961  
+      71A      0.909282    72A      0.922121    73A      0.987977  
+      74A      1.006984    75A      1.030156    76A      1.051674  
+      77A      1.088205    78A      1.101360    79A      1.214972  
+      80A      1.276472    81A      1.285476    82A      1.318860  
+      83A      1.342789    84A      1.413927    85A      1.509561  
+      86A      1.530752    87A      1.556730    88A      1.648285  
+      89A      1.651217    90A      1.685496    91A      1.699200  
+      92A      1.732137    93A      1.807634    94A      1.831949  
+      95A      1.856768    96A      1.880973    97A      1.915821  
+      98A      1.917289    99A      1.969044   100A      1.992314  
+     101A      1.995683   102A      2.062259   103A      2.072446  
+     104A      2.169898   105A      2.205250   106A      2.299407  
+     107A      2.319969   108A      2.371494   109A      2.401958  
+     110A      2.432566   111A      2.511600   112A      2.535487  
+     113A      2.590669   114A      2.647768   115A      2.743643  
+     116A      2.779063   117A      2.890254   118A      2.919647  
+     119A      3.383045   120A      3.411974   121A      3.432516  
+     122A      3.546867   123A      3.947128  
+
+    Final Occupation by Irrep:
+              A 
+    DOCC [    13 ]
+
+  @DF-RKS Final Energy:  -155.24781194377408
+
+   => Energetics <=
+
+    Nuclear Repulsion Energy =             82.0738223978990931
+    One-Electron Energy =                -372.3579839265269698
+    Two-Electron Energy =                 151.1244214550542040
+    DFT Exchange-Correlation Energy =     -16.0809889164349649
+    Empirical Dispersion Energy =           0.0000000000000000
+    VV10 Nonlocal Energy =                  0.0000000000000000
+    PCM Polarization Energy =              -0.0070829537654492
+    Total Energy =                       -155.2478119437740816
+
+Computation Completed
+
+
+Properties will be evaluated at   0.000000,   0.000000,   0.000000 [a0]
+
+Properties computed using the PW6B95 density matrix
+
+  Nuclear Dipole Moment: [e a0]
+     X:    74.3059      Y:    32.3634      Z:   -34.2267
+
+  Electronic Dipole Moment: [e a0]
+     X:   -73.7205      Y:   -32.0296      Z:    34.6808
+
+  Dipole Moment: [e a0]
+     X:     0.5854      Y:     0.3338      Z:     0.4541     Total:     0.8126
+
+  Dipole Moment: [D]
+     X:     1.4879      Y:     0.8485      Z:     1.1543     Total:     2.0655
+
+
+ Field computed on the grid and written to grid_field.dat
+
+ Electrostatic potential computed on the grid and written to grid_esp.dat
+
+*** tstop() called on michael-HP at Tue Jul 23 17:23:36 2019
+Module time:
+	user time   =     107.12 seconds =       1.79 minutes
+	system time =       1.35 seconds =       0.02 minutes
+	total time  =        110 seconds =       1.83 minutes
+Total time:
+	user time   =     107.12 seconds =       1.79 minutes
+	system time =       1.35 seconds =       0.02 minutes
+	total time  =        110 seconds =       1.83 minutes
+
+    Psi4 stopped on: Tuesday, 23 July 2019 05:23PM
+    Psi4 wall time for execution: 0:01:49.56
+
+*** Psi4 exiting successfully. Buy a developer a beer!

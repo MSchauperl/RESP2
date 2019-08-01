@@ -1,0 +1,15 @@
+memory 12 gb
+molecule mol {
+noreorient
+nocom
+    0 1
+
+}
+set basis 6-31G*
+optimize('HF')
+set basis cc-pV(D+d)Z
+optimize('HF')
+set basis cc-pV(D+d)Z
+optimize('PW6B95')
+
+mol.save_xyz_file('ETH-confermers_opt_1.xyz',True)

@@ -1,0 +1,50 @@
+$options
+
+wp_port 3333
+asynchronous    
+penalty_type L2
+jobtype single
+forcefield smirnoff99Frosst.offxml ETH-resp2.mol2 
+maxstep 100
+PENALTY_ADDITIVE 10
+
+convergence_step 0.001
+convergence_objective 30
+convergence_gradient 30
+criteria 2
+
+eig_lowerbound 0.01
+finite_difference_h 0.001
+penalty_additive 1.0
+trust0 0.15
+mintrust 0.05
+error_tolerance 1.0
+adaptive_factor 0.2
+adaptive_damping 1.0
+normalize_weights no
+print_hessian
+constrain_charge false
+backup false
+
+priors
+   NonbondedForce/Atom/epsilon          : 0.1
+   NonbondedForce/Atom/rmin_half        : 1.0
+/priors
+
+
+        
+$target
+name data/ethanol-liquid
+type Liquid_SMIRNOFF
+weight 1.0
+liquid_coords    ETH-box.pdb
+liquid_eq_steps       50000
+liquid_prod_steps    5000000
+liquid_timestep 1.0
+liquid_interval         1.0
+save_traj               2
+gas_coords          ETH.pdb
+gas_eq_steps     5000000
+gas_prod_steps     20000000
+gas_timestep 0.5
+$end

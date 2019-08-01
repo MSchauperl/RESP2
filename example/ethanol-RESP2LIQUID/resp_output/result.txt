@@ -1,0 +1,14 @@
+respyte result
+ Two stage fit RESP
+ weight1 =   0.0005, weight2 =   0.0010, tightness =   0.1000
+cheminformatics: openeye
+mol1
+ -0.2416
+  0.3544
+ -0.6898
+  0.0649
+  0.0649
+  0.0649
+ -0.0111
+ -0.0111
+  0.4045
