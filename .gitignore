@@ -109,3 +109,6 @@ genbox.pdb
 data/
 psi.*
 timer.dat
+
+example/ethanol-*
+example/ETH-*
