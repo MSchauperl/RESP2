@@ -26,28 +26,6 @@ import glob
 
 ### Local functions
 
-def canvas(with_attribution=True):
-    """
-    Placeholder function to show example docstring (NumPy format)
-
-    Replace this function and doc string for your own project
-
-    Parameters
-    ----------
-    with_attribution : bool, Optional, default: True
-        Set whether or not to display who the quote is from
-
-    Returns
-    -------
-    quote : str
-        Compiled string including quote and optional attribution
-    """
-
-    quote = "The code is but a canvas to our imagination."
-    if with_attribution:
-        quote += "\n\t- Adapted from Henry David Thoreau"
-    return quote
-
 
 def create_respyte(type='RESP1', name='', resname='MOL', number_of_conformers=1):
     """
@@ -106,7 +84,7 @@ def create_respyte(type='RESP1', name='', resname='MOL', number_of_conformers=1)
     # 3 Copy optimized files
     # Looks for the optimized files
     for i in range(1, number_of_conformers + 1):
-        foldername = os.path.join(os.path.dirname(name), name + '-liquid')
+        foldername = os.path.join(os.path.dirname(name), os.path.basename(name) + '-liquid')
         shutil.copyfile(os.path.join(foldername, resname + '-confermers_opt_' + str(i) + '.xyz'),
                         os.path.join('{}-{}/input/molecules/mol1/conf{}/mol1_conf{}.xyz'.format(name, type, i, i)))
 
@@ -404,7 +382,7 @@ optimize('PW6B95')
     obConversion = openbabel.OBConversion()
     obConversion.SetInAndOutFormats("mol2", "xyz")
 
-    foldername = os.path.join(os.path.dirname(name), name + '-liquid')
+    foldername = os.path.join(os.path.dirname(name), os.path.basename(name) + '-liquid')
     filename = os.path.basename(name)
     for i in range(1, number_of_conformers + 1):
         inputfile = os.path.join(foldername, resname + '-conformers_' + str(i) + '.mol2')
@@ -641,16 +619,36 @@ priors
     return 0
 
 
+def create_RESP2(folder = '', opt = True,  name='', resname='MOL', delta = 1.0, density = None, hov = None, dielectric = None):
+    name = name
+    try:
+        infile = os.path.join(folder, '{}.mol2'.format(resname))
+    except:
+        print('Could not find file: {}'.format(infile))
+    outfile = os.path.join(folder, '{}-conformers.mol2'.format(resname))
+    number_of_conformers = create_conformers(infile=infile, outfile=outfile)
+    name = os.path.join(os.path.dirname(folder),name)
+    print(name)
+    optimize_conformers(name = name,resname =resname, opt = opt ,number_of_conformers=number_of_conformers)
+    create_respyte(name =name,resname =resname, type='RESP2LIQUID',number_of_conformers=number_of_conformers)
+    create_respyte(name =name,resname =resname, type='RESP2GAS',number_of_conformers=number_of_conformers)
+    create_respyte(name =name,resname =resname, type='RESP1',number_of_conformers=number_of_conformers)
+    create_charge_file(name=name,resname = resname, type = 'RESP1', delta = delta)
+    return 0
+
+
 if __name__ == "__main__":
     log.getLogger().setLevel(log.INFO)
-    create_target(name='data/ethanol', density=789.3, hov=42.3, dielectric=32.7, smiles='CCO', resname='ETH')
-    number_of_conformers = create_conformers(infile='data/ETH.mol2', outfile='data/ETH-conformers.mol2')
+    create_target(name='data/methanol', density=789.3, hov=42.3, dielectric=32.7, smiles='CO', resname='MET')
+    create_RESP2(opt = True, name = 'methanol', resname = 'MET', folder = 'data/methanol-liquid' )
+
+    #number_of_conformers = create_conformers(infile='data/ETH.mol2', outfile='data/MET-conformers.mol2')
     # optimize_conformers(name ='data/ethanol',resname ='ETH', opt = False,number_of_conformers=number_of_conformers)
     # create_respyte(name ='data/ethanol',resname ='ETH', type='RESP2LIQUID',number_of_conformers=number_of_conformers)
     # create_respyte(name ='data/ethanol',resname ='ETH', type='RESP2GAS',number_of_conformers=number_of_conformers)
     # create_respyte(name ='data/ethanol',resname ='ETH', type='RESP1',number_of_conformers=number_of_conformers)
     # create_charge_file(name='data/ethanol',resname ='ETH', type = 'RESP1', delta= 2.0)
-    os.chdir('data')
-    create_fb_input(name='test_fb.in', elements=['ethanol'], forcefield='smirnoff99Frosst.offxml', port='3333',
-                    type='single',
-                    mol2_files=['ETH-resp2.mol2'], convergence='tight')
+    #os.chdir('data')
+    #create_fb_input(name='test_fb.in', elements=['ethanol'], forcefield='smirnoff99Frosst.offxml', port='3333',
+    #                type='single',
+    #                mol2_files=['ETH-resp2.mol2'], convergence='tight')
