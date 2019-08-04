@@ -308,7 +308,7 @@ Global,use_cni,FALSE,,,,
     return 0
 
 
-def create_target(smiles='', name='', density=None, hov=None, dielectric=None, resname='MOL', nmol=700, tries=1000):
+def create_target(smiles='', name='', density=None, hov=None, dielectric=None, resname='MOL', nmol=700, tries=2000):
     """
     This functions creates a target including folder structure mol2 files and the data input file.
 
@@ -329,7 +329,7 @@ def create_target(smiles='', name='', density=None, hov=None, dielectric=None, r
     foldername = name + '-liquid/'
     create_std_target_file(name=name, density=density, hov=hov, dielectric=dielectric)
     create_smifile_from_string(smiles=smiles, filename=foldername + resname + '.smi', )
-    create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 150, tries=tries,
+    create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 170, tries=tries,
                                         input=foldername + resname + '.smi', resname=resname)
     # os.chdir(name+'-liquid')
     return 0
