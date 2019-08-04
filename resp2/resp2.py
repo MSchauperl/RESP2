@@ -329,8 +329,16 @@ def create_target(smiles='', name='', density=None, hov=None, dielectric=None, r
     foldername = name + '-liquid/'
     create_std_target_file(name=name, density=density, hov=hov, dielectric=dielectric)
     create_smifile_from_string(smiles=smiles, filename=foldername + resname + '.smi', )
-    create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 250, tries=tries,
+
+    # try except is necessary for really bulky molecules.
+    try:
+        create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 250, tries=tries,
                                         input=foldername + resname + '.smi', resname=resname)
+    except:
+        create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 350, tries=tries,
+                                            input=foldername + resname + '.smi', resname=resname)
+
+
     # os.chdir(name+'-liquid')
     return 0
 
