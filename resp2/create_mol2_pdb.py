@@ -125,56 +125,61 @@ def GenerateBox(pdbin, pdbout, box, nmol, tries):
         log.info("-=# Output #=- Created %s containing solvent box with %i molecules and length %.3f" % (pdbout, nmol, box))
 
 def run_create_mol2_pdb(**kwargs):
+    try:
+        nmol = kwargs['nmol']
+        input_txt = kwargs['input']
+        resname = kwargs['resname']
+        density = kwargs['density']
+        tries = kwargs['tries']
+        output_folder=os.path.dirname(input_txt)
+        log.debug('The output folder is: '+output_folder)
+        # Disable Gromacs backup file creation
+        os.environ['GMX_MAXBACKUP']="-1"
 
-    nmol = kwargs['nmol']
-    input_txt = kwargs['input']
-    resname = kwargs['resname']
-    density = kwargs['density']
-    tries = kwargs['tries']
-    output_folder=os.path.dirname(input_txt)
-    log.debug('The output folder is: '+output_folder)
-    # Disable Gromacs backup file creation
-    os.environ['GMX_MAXBACKUP']="-1"
-    
-    smiles_string = open(input_txt).readlines()[0].strip()
-    log.info("The following SMILES string will be converted: %s" % smiles_string)
-    
-    ofs = oechem.oemolostream()
-    
-    # create a new molecule
-    oemol = oechem.OEGraphMol()
-    # convert the SMILES string into a molecule
-    if oechem.OESmilesToMol(oemol, smiles_string):
-        # do something interesting with mol
-        pass
-    else:
-        log.error("SMILES string was invalid!")
-    
-    # Add explicit
-    oechem.OEAddExplicitHydrogens(oemol)
-    
-    # Generate a single conformer
-    oemol = openmoltools.openeye.generate_conformers(oemol, max_confs=1)
-    
-    # Modify residue names
-    oechem.OEPerceiveResidues(oemol, oechem.OEPreserveResInfo_All)
-    for atom in oemol.GetAtoms():
-        thisRes = oechem.OEAtomGetResidue(atom)
-        thisRes.SetName(resname)
-    
-    # Write output files
-    ofs = oechem.oemolostream()
-    output_fnms = [os.path.join(output_folder,'%s.mol2' % resname),os.path.join(output_folder,'%s.pdb' % resname)]
-    for output_fnm in output_fnms:
-        if not ofs.open(output_fnm):
-            oechem.OEThrow.Fatal("Unable to create %s" % output_fnm)
-        oechem.OEWriteMolecule(ofs, oemol)
-        log.info("-=# Output #=- Created %s containing single molecule" % output_fnm)
-    
-    grams_per_mole = CalculateMolecularWeight(oemol)
-    
-    boxlen = CalculateBoxSize(nmol, grams_per_mole, density)
-    fullresname = os.path.join(output_folder,resname)
+        smiles_string = open(input_txt).readlines()[0].strip()
+        log.info("The following SMILES string will be converted: %s" % smiles_string)
+
+        ofs = oechem.oemolostream()
+
+        # create a new molecule
+        oemol = oechem.OEGraphMol()
+        # convert the SMILES string into a molecule
+        if oechem.OESmilesToMol(oemol, smiles_string):
+            # do something interesting with mol
+            pass
+        else:
+            log.error("SMILES string was invalid!")
+
+        # Add explicit
+        oechem.OEAddExplicitHydrogens(oemol)
+
+        # Generate a single conformer
+        oemol = openmoltools.openeye.generate_conformers(oemol, max_confs=1)
+
+        # Modify residue names
+        oechem.OEPerceiveResidues(oemol, oechem.OEPreserveResInfo_All)
+        for atom in oemol.GetAtoms():
+            thisRes = oechem.OEAtomGetResidue(atom)
+            thisRes.SetName(resname)
+
+        # Write output files
+        ofs = oechem.oemolostream()
+        output_fnms = [os.path.join(output_folder,'%s.mol2' % resname),os.path.join(output_folder,'%s.pdb' % resname)]
+        for output_fnm in output_fnms:
+            if not ofs.open(output_fnm):
+                oechem.OEThrow.Fatal("Unable to create %s" % output_fnm)
+            oechem.OEWriteMolecule(ofs, oemol)
+            log.info("-=# Output #=- Created %s containing single molecule" % output_fnm)
+
+        grams_per_mole = CalculateMolecularWeight(oemol)
+
+        boxlen = CalculateBoxSize(nmol, grams_per_mole, density)
+        fullresname = os.path.join(output_folder,resname)
+    except:
+        if not os.path.isfile('%sS.pdb' % fullresname):
+            print('Could not create pdb files. Please provide one with the name %sS.pdb' % fullresname)
+            exit(1)
+
     try:
         GenerateBox('%sS.pdb' % fullresname, '%s-box.pdb' % fullresname, boxlen, nmol, tries)
     except:
