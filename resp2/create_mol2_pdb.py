@@ -177,7 +177,7 @@ def run_create_mol2_pdb(**kwargs):
         fullresname = os.path.join(output_folder,resname)
     except:
         if not os.path.isfile('%sS.pdb' % fullresname):
-            print('Could not create pdb files. Please provide one with the name %sS.pdb' % fullresname)
+            log.error('Could not create pdb files. Please provide one with the name %sS.pdb' % fullresname)
             exit(1)
 
     try:
