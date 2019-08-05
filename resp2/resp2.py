@@ -78,7 +78,7 @@ def create_respyte(type='RESP1', name='', resname='MOL', number_of_conformers=1)
 
     log.info('Create folder structure for {} with {} conformers'.format(name, number_of_conformers))
 
-    #2 Create Respyte and RESP Optimizer input files
+    # 2 Create Respyte and RESP Optimizer input files
     create_respyte_input_files(type=type, name=name, resname=resname, number_of_conformers=number_of_conformers)
 
     # 3 Copy optimized files
@@ -91,7 +91,6 @@ def create_respyte(type='RESP1', name='', resname='MOL', number_of_conformers=1)
     cwdir = os.getcwd()
     # 4 Run RESPyte and PSI4
     calculate_respyte(type=type, name=name, resname=resname, number_of_conformers=number_of_conformers)
-
 
     return 0
 
@@ -333,15 +332,14 @@ def create_target(smiles='', name='', density=None, hov=None, dielectric=None, r
     # try except is necessary for really bulky molecules.
     try:
         create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 250, tries=tries,
-                                        input=foldername + resname + '.smi', resname=resname)
+                                            input=foldername + resname + '.smi', resname=resname)
     except:
         try:
             create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 350, tries=tries,
-                                            input=foldername + resname + '.smi', resname=resname)
+                                                input=foldername + resname + '.smi', resname=resname)
         except:
             create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 400, tries=tries,
-                                            input=foldername + resname + '.smi', resname=resname)
-
+                                                input=foldername + resname + '.smi', resname=resname)
 
     # os.chdir(name+'-liquid')
     return 0
@@ -631,7 +629,7 @@ priors
     return 0
 
 
-def create_RESP2(folder = '', opt = True,  name='', resname='MOL', delta = 1.0, density = None, hov = None, dielectric = None):
+def create_RESP2(folder='', opt=True, name='', resname='MOL', delta=1.0, density=None, hov=None, dielectric=None):
     name = name
     try:
         infile = os.path.join(folder, '{}.mol2'.format(resname))
@@ -639,28 +637,28 @@ def create_RESP2(folder = '', opt = True,  name='', resname='MOL', delta = 1.0, 
         print('Could not find file: {}'.format(infile))
     outfile = os.path.join(folder, '{}-conformers.mol2'.format(resname))
     number_of_conformers = create_conformers(infile=infile, outfile=outfile)
-    name = os.path.join(os.path.dirname(folder),name)
+    name = os.path.join(os.path.dirname(folder), name)
     print(name)
-    optimize_conformers(name = name,resname =resname, opt = opt ,number_of_conformers=number_of_conformers)
-    create_respyte(name =name,resname =resname, type='RESP2LIQUID',number_of_conformers=number_of_conformers)
-    create_respyte(name =name,resname =resname, type='RESP2GAS',number_of_conformers=number_of_conformers)
-    create_respyte(name =name,resname =resname, type='RESP1',number_of_conformers=number_of_conformers)
-    create_charge_file(name=name,resname = resname, type = 'RESP1', delta = delta)
+    optimize_conformers(name=name, resname=resname, opt=opt, number_of_conformers=number_of_conformers)
+    create_respyte(name=name, resname=resname, type='RESP2LIQUID', number_of_conformers=number_of_conformers)
+    create_respyte(name=name, resname=resname, type='RESP2GAS', number_of_conformers=number_of_conformers)
+    create_respyte(name=name, resname=resname, type='RESP1', number_of_conformers=number_of_conformers)
+    create_charge_file(name=name, resname=resname, type='RESP1', delta=delta)
     return 0
 
 
 if __name__ == "__main__":
     log.getLogger().setLevel(log.INFO)
     create_target(name='data/methanol', density=789.3, hov=42.3, dielectric=32.7, smiles='CO', resname='MET')
-    create_RESP2(opt = True, name = 'methanol', resname = 'MET', folder = 'data/methanol-liquid' )
+    create_RESP2(opt=True, name='methanol', resname='MET', folder='data/methanol-liquid')
 
-    #number_of_conformers = create_conformers(infile='data/ETH.mol2', outfile='data/MET-conformers.mol2')
+    # number_of_conformers = create_conformers(infile='data/ETH.mol2', outfile='data/MET-conformers.mol2')
     # optimize_conformers(name ='data/ethanol',resname ='ETH', opt = False,number_of_conformers=number_of_conformers)
     # create_respyte(name ='data/ethanol',resname ='ETH', type='RESP2LIQUID',number_of_conformers=number_of_conformers)
     # create_respyte(name ='data/ethanol',resname ='ETH', type='RESP2GAS',number_of_conformers=number_of_conformers)
     # create_respyte(name ='data/ethanol',resname ='ETH', type='RESP1',number_of_conformers=number_of_conformers)
     # create_charge_file(name='data/ethanol',resname ='ETH', type = 'RESP1', delta= 2.0)
-    #os.chdir('data')
-    #create_fb_input(name='test_fb.in', elements=['ethanol'], forcefield='smirnoff99Frosst.offxml', port='3333',
+    # os.chdir('data')
+    # create_fb_input(name='test_fb.in', elements=['ethanol'], forcefield='smirnoff99Frosst.offxml', port='3333',
     #                type='single',
     #                mol2_files=['ETH-resp2.mol2'], convergence='tight')
