@@ -125,7 +125,6 @@ def GenerateBox(pdbin, pdbout, box, nmol, tries):
         log.info("-=# Output #=- Created %s containing solvent box with %i molecules and length %.3f" % (pdbout, nmol, box))
 
 def run_create_mol2_pdb(**kwargs):
-    try:
         nmol = kwargs['nmol']
         input_txt = kwargs['input']
         resname = kwargs['resname']
@@ -139,6 +138,7 @@ def run_create_mol2_pdb(**kwargs):
         smiles_string = open(input_txt).readlines()[0].strip()
         log.info("The following SMILES string will be converted: %s" % smiles_string)
 
+    try:
         ofs = oechem.oemolostream()
 
         # create a new molecule
