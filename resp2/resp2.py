@@ -335,7 +335,11 @@ def create_target(smiles='', name='', density=None, hov=None, dielectric=None, r
         create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 250, tries=tries,
                                         input=foldername + resname + '.smi', resname=resname)
     except:
-        create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 350, tries=tries,
+        try:
+            create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 350, tries=tries,
+                                            input=foldername + resname + '.smi', resname=resname)
+        except:
+            create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 400, tries=tries,
                                             input=foldername + resname + '.smi', resname=resname)
 
 
