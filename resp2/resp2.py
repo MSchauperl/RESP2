@@ -651,7 +651,7 @@ if __name__ == "__main__":
     log.getLogger().setLevel(log.INFO)
     create_target(name='data/methanol', density=789.3, hov=42.3, dielectric=32.7, smiles='CO', resname='MET')
     create_RESP2(opt=True, name='methanol', resname='MET', folder='data/methanol-liquid')
-
+    os.path.isfile
     # number_of_conformers = create_conformers(infile='data/ETH.mol2', outfile='data/MET-conformers.mol2')
     # optimize_conformers(name ='data/ethanol',resname ='ETH', opt = False,number_of_conformers=number_of_conformers)
     # create_respyte(name ='data/ethanol',resname ='ETH', type='RESP2LIQUID',number_of_conformers=number_of_conformers)
