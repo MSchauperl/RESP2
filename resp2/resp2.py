@@ -26,6 +26,328 @@ import glob
 
 ### Local functions
 
+### Functions to create ForceBalance targets. Not required for RESP2 charges per se.
+
+def create_fb_input(name='', elements=[], forcefield='smirnoff99Frosst.offxml', port='3333', type='single',
+                    mol2_files=[], convergence='tight'):
+    cwdir = os.getcwd()
+    if os.path.isdir('targets') == True:
+        os.chdir('targets')
+    output = open(name, 'w')
+    create_fb_input_header(output=output, port=port, type=type, forcefield=forcefield, mol2_files=mol2_files,
+                           convergence=convergence)
+    for ele in elements:
+        abb = os.path.basename(glob.glob('{}-liquid/*box.pdb'.format(ele))[0])
+        abb = abb.split('-')[0]
+        output.write('''
+
+$target
+name {}-liquid
+type Liquid_SMIRNOFF
+weight 1.0
+liquid_coords    {}-box.pdb
+liquid_eq_steps       50000
+liquid_prod_steps    5000000
+liquid_timestep 1.0
+liquid_interval         1.0
+save_traj               2
+gas_coords          {}.pdb
+gas_eq_steps     5000000
+gas_prod_steps     20000000
+gas_timestep 0.5
+$end
+'''.format(ele, abb, abb))
+    os.chdir(cwdir)
+
+
+def create_fb_input_header(output=None, port='3333', type='single', forcefield='smirnoff99Frosst.offxml', mol2_files=[],
+                           convergence='tight'):
+    output.write('''$options\n
+wp_port {}
+asynchronous    
+penalty_type L2
+jobtype {}
+forcefield {} '''.format(port, type, forcefield))
+    for ele in mol2_files:
+        output.write(ele + ' ')
+    output.write('\nmaxstep 100\nPENALTY_ADDITIVE 10\n')
+
+    if convergence == 'tight':
+        output.write("""
+convergence_step 0.001
+convergence_objective 30
+convergence_gradient 30
+criteria 2
+""")
+    elif convergence == 'loose':
+        output.write("""
+convergence_step 0.005
+convergence_objective 0.05
+convergence_gradient 0.001
+criteria 1
+        """)
+
+    else:
+        log.error('Convergence criteria not recognized')
+        sys.exit(1)
+
+    output.write('''
+eig_lowerbound 0.01
+finite_difference_h 0.001
+penalty_additive 1.0
+trust0 0.15
+mintrust 0.05
+error_tolerance 1.0
+adaptive_factor 0.2
+adaptive_damping 1.0
+normalize_weights no
+print_hessian
+constrain_charge false
+backup false
+
+priors
+   NonbondedForce/Atom/epsilon          : 0.1
+   NonbondedForce/Atom/rmin_half        : 1.0
+/priors
+
+''')
+
+    return 0
+
+
+def create_std_target_file(name='', density=None, folder = None, hov=None, dielectric=None):
+    """
+    This function creates the target data.csv files required by ForceBalance.
+    Up to now only 3 properties are supported.
+
+    :param name:
+    :param density:
+    :param hov:
+    :param dielectric:
+    :return:
+    """
+    header_csv = '''# This is documentation for the ForceBalance condensed phase reference data file
+,,,,,,
+,,,,,,
+Global,rho_denom,5,,,,
+Global,hvap_denom,0.5,,,,
+Global,alpha_denom,1,,,,
+Global,kappa_denom,5,,,,
+Global,cp_denom,2,,,,
+Global,eps0_denom,2,,,,
+Global,use_cvib_intra,FALSE,,,,
+Global,use_cvib_inter,FALSE,,,,
+Global,use_cni,FALSE,,,,
+,,,,,,
+,,,,,,
+'''
+    if name == '':
+        log.error(
+            'You did not specify a name for the target folder. Please use create_std_target_file(name=targetname,density=targetdensity,hov=target_heat,dielectric=target_eps0)')
+    f = open(os.path.join(folder,'data.csv'), 'w')
+    f.write(header_csv)
+    if dielectric == None:
+        f.write('T,P,MBAR,Rho,Rho_wt,Hvap,Hvap_wt\n')
+        f.write('298.0,1.0 atm, FALSE,{},1,{},1\n'.format(density, hov))
+    else:
+        f.write('T,P,MBAR,Rho,Rho_wt,Hvap,Hvap_wt,eps0,eps0_wt\n')
+        f.write('298.0,1.0 atm, FALSE,{},1,{},1,{},1\n'.format(density, hov, dielectric))
+
+    f.close()
+    log.info('''Created target file {}/data.csv
+    Density: {} g/l
+    Heat of Vaporization: {} kcal/mol
+    Dielectric Constant: {}'''.format(folder, density, hov, dielectric))
+    return 0
+
+
+def create_target(smiles='', name='', folder=None, density=None, hov=None, dielectric=None, resname='MOL', nmol=700, tries=2000):
+    """
+    This functions creates a target including folder structure mol2 files and the data input file.
+
+    :param smiles:
+    :param name:
+    :param folder:
+    :param density:
+    :param hov:
+    :param dielectric:
+    :param resname:
+    :param nmol:
+    :param tries:
+    :return:
+    """
+    # Check if folder is specified. If not than use standard folder
+    if folder is None:
+        folder = name + '-liquid'
+    try:
+        os.mkdir(folder)
+    except:
+        log.warning('folder {} already exists'.format(folder))
+    create_std_target_file(name=name, folder = folder, density=density, hov=hov, dielectric=dielectric)
+    create_smifile_from_string(smiles=smiles, filename=folder + resname + '.smi', )
+
+    # try except is necessary for really bulky molecules.
+    try:
+        create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 250, tries=tries,
+                                            input=folder + resname + '.smi', resname=resname)
+    except:
+        try:
+            create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 350, tries=tries,
+                                                input=folder + resname + '.smi', resname=resname)
+        except:
+            create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 400, tries=tries,
+                                                input=folder + resname + '.smi', resname=resname)
+
+    return 0
+
+
+def create_smifile_from_string(smiles='', filename=''):
+    """
+    Writes a smile string to a file.
+
+    :param smiles:
+    :param filename:
+    :return:
+    """
+    f = open(filename, 'w')
+    f.write(smiles)
+    f.close()
+
+    return 0
+
+
+### RESP2 functions. Ordered in sequence of expected use.
+
+def create_conformers(infile=None, outfile=None, folder= None, name = None):
+    """
+    This function takes a mol1 file and runs Openeye's omega to create conformers for the molecules
+    The conformers are stored in separated files, adding the number of the conformer at the end of the filename
+
+    :param infile: Path to input file
+    :param outfile: Path to output file return
+    :return: Number of conformers for this molecule
+    """
+    if folder is None and name is None:
+        log.error('Please specify keyword argument folder or name')
+        sys.exit(1)
+    elif folder is None:
+        folder = name +'-liquid'
+    infilepath = os.path.join(folder, infile)
+    outfilepath = os.path.join(folder, outfile)
+    ifs = oechem.oemolistream()
+    if not ifs.open(infile):
+        oechem.OEThrow.Fatal("Unable to open %s for reading" % infilepath)
+
+    ofs = oechem.oemolostream()
+    if not ofs.open(outfile):
+        oechem.OEThrow.Fatal("Unable to open %s for writing" % outfilepath)
+
+    if not oechem.OEIs2DFormat(ofs.GetFormat()):
+        oechem.OEThrow.Fatal("Invalid output file format for 2D coordinates!")
+
+    omegaOpts = oeomega.OEOmegaOptions()
+    omega = oeomega.OEOmega(omegaOpts)
+    omega.SetCommentEnergy(True)
+    omega.SetEnumNitrogen(True)
+    omega.SetSampleHydrogens(True)
+    omega.SetEnergyWindow(9.0)
+    omega.SetMaxConfs(4)
+    omega.SetRangeIncrement(2)
+    omega.SetRMSRange([-1.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5])
+    filename = outfile.split('.')[-1]
+    for mol in ifs.GetOEMols():
+        ret_code = omega.Build(mol)
+        if ret_code == oeomega.OEOmegaReturnCode_Success:
+            oechem.OEWriteMolecule(ofs, mol)
+            for k, conf in enumerate(mol.GetConfs()):
+                ofs1 = oechem.oemolostream()
+                if not ofs1.open(os.path.join(folder, filename + '_' + str(k + 1) + '.mol2')):
+                    oechem.OEThrow.Fatal("Unable to open %s for writing" % os.path.join(folder, filename + '_' + str(k + 1) + '.mol2'))
+                oechem.OEWriteMolecule(ofs1, conf)
+                nconf = k + 0
+            log.info('Created conformations for {} and saved them to {}'.format(infilepath, outfilepath))
+
+        else:
+            oechem.OEThrow.Warning("%s: %s" % (mol.GetTitle(), oeomega.OEGetOmegaError(ret_code)))
+
+    return nconf
+
+def optimize_conformers(opt=True, name='', resname='MOL', number_of_conformers=1, folder = None):
+    """
+    Optimize all conformers using psi4. This is done in a 3 step approach were the level of theory is
+    increased stepwise. The resulting structures ares saved as xyz files. If opt = False the
+    optimization is omitted and only the files are copied.
+
+    :param opt:
+    :param name:
+    :param resname:
+    :param number_of_conformers:
+    :return:
+    """
+    header = """memory 12 gb
+molecule mol {
+noreorient
+nocom
+    """
+    tail_m1 = """
+}
+set basis 6-31G*
+optimize('HF')
+set basis cc-pV(D+d)Z
+optimize('HF')
+set basis cc-pV(D+d)Z
+optimize('PW6B95')
+
+"""
+
+    # 2 Convert mol2 files to xyz files and put them in the corresponding folder
+    obConversion = openbabel.OBConversion()
+    obConversion.SetInAndOutFormats("mol2", "xyz")
+
+    if folder is None:
+        folder = name +'-liquid'
+    filename = name
+    for i in range(1, number_of_conformers + 1):
+        inputfile = os.path.join(folder, resname + '-conformers_' + str(i) + '.mol2')
+        outputfile = os.path.join(folder, resname + '-conformers_' + str(i) + '.xyz')
+
+        mol = openbabel.OBMol()
+        obConversion.ReadFile(mol, inputfile)
+        obConversion.WriteFile(mol, outputfile)
+
+    if opt == True:
+
+        for i in range(1, number_of_conformers + 1):
+            xyz_file = os.path.join(folder, resname + '-conformers_' + str(i) + '.xyz')
+            psi4_input_file = os.path.join(folder, resname + '-conformers_' + str(i) + '.in')
+            psi4_output_file = os.path.join(folder, resname + '-conformers_' + str(i) + '.out')
+            f = open(xyz_file, 'r')
+            coordinates = f.readlines()[2:]
+            f.close()
+            f = open(psi4_input_file, 'w')
+            f.write(header)
+            f.write('0 1\n')
+            for line in coordinates:
+                f.write(line)
+            f.write(tail_m1)
+            f.write("mol.save_xyz_file('{}',True)".format(
+                os.path.join(folder, resname + '-confermers_opt_' + str(i) + '.xyz')))
+
+            f.close()
+
+            os.system('psi4 {} -n 4'.format(psi4_input_file))
+            if 'beer' in open(psi4_output_file).read():
+                log.info('Optimization of {} and conformer {} succesful'.format(filename, i))
+            else:
+                log.error('Optimization of {} and conformer {} FAILED!!!!!!'.format(filename, i))
+
+    else:
+        for i in range(1, number_of_conformers + 1):
+            if not os.path.exists(os.path.join(folder, resname + '-confermers_opt_' + str(i) + '.xyz')):
+                shutil.copy(os.path.join(folder, resname + '-confermers_' + str(i) + '.xyz'),
+                            os.path.join(folder, resname + '-confermers_opt_' + str(i) + '.xyz'))
+
+
 
 def create_respyte(type='RESP1', name='', resname='MOL', number_of_conformers=1):
     """
@@ -38,11 +360,11 @@ def create_respyte(type='RESP1', name='', resname='MOL', number_of_conformers=1)
     RESP2GAS uses PW6BP94/aug-cc-pV(D+d)Z
     RESP2LIQUID uses PW6BP94/aug-cc-pV(D+d)Z with PCM (water)
 
-    :param type: defines what type of QM calcualtion to perform
+    :param type: defines what type of QM calculation to perform
     :param name: name of the compound
-    :param resname: 3 letter abbrevation of the compound
+    :param resname: 3 letter abbreviation of the compound
     :param number_of_conformers: Number of conformers used for this compound
-    :return: 0 if succesful
+    :return: 0 if successful
     """
     # 1 Create folder structure for respyte
     # Details of the folder structure are explained in the respyte github repository
@@ -97,14 +419,14 @@ def create_respyte(type='RESP1', name='', resname='MOL', number_of_conformers=1)
 
 def calculate_respyte(type='RESP1', name='', resname='MOL', number_of_conformers=1):
     """
-    This fucntion performs the psi4 calculation and the respyte calculationa and checks if the
-    calculation was succesful.
+    This function performs the psi4 calculation and the respyte calculation and checks if the
+    calculation was successful.
 
-    :param type: defines what type of QM calcualtion to perform
+    :param type: defines what type of QM calculation to perform
     :param name: name of the compound
-    :param resname: 3 letter abbrevation of the compound
+    :param resname: 3 letter abbreviation of the compound
     :param number_of_conformers: Number of conformers used for this compound
-    :return: 0 if succesful
+    :return: 0 if successful
     """
     foldername = name + '-' + type
     cwdr = os.getcwd()
@@ -136,10 +458,10 @@ def create_respyte_input_files(type='RESP1', name='', resname='MOL', number_of_c
     This function performs the psi4 calculation and the respyte calculations and checks if the
     calculation was successful.
 
-    :param type: defines what type of QM calcualtion to perform
+    :param type: defines what type of QM calculation to perform
     :param name: name of the compound
     :param number_of_conformers: Number of conformers used for this compound
-    :return: 0 if succesful
+    :return: 0 if successful
     """
     if type == 'RESP1':
         method = 'HF'
@@ -212,227 +534,6 @@ grid_setting :
     return 0
 
 
-def create_conformers(infile=None, outfile=None):
-    """
-    This function takes a mol2 file and runs openeye's omega to create conformers for the molecules
-    The conformers are stored in separated files, adding the number of the conformer at the end of the filename
-
-    :param infile: Path to input file
-    :param outfile: Path to output file return
-    :return: Number of conformers for this molecule
-    """
-    ifs = oechem.oemolistream()
-    if not ifs.open(infile):
-        oechem.OEThrow.Fatal("Unable to open %s for reading" % infile)
-
-    ofs = oechem.oemolostream()
-    if not ofs.open(outfile):
-        oechem.OEThrow.Fatal("Unable to open %s for writing" % outfile)
-
-    if not oechem.OEIs3DFormat(ofs.GetFormat()):
-        oechem.OEThrow.Fatal("Invalid output file format for 3D coordinates!")
-
-    omegaOpts = oeomega.OEOmegaOptions()
-    omega = oeomega.OEOmega(omegaOpts)
-    omega.SetCommentEnergy(True)
-    omega.SetEnumNitrogen(True)
-    omega.SetSampleHydrogens(True)
-    omega.SetEnergyWindow(10.0)
-    omega.SetMaxConfs(5)
-    omega.SetRangeIncrement(3)
-    omega.SetRMSRange([0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5])
-    folder = os.path.dirname(outfile)
-    filename = os.path.basename(outfile).split('.')[0]
-    for mol in ifs.GetOEMols():
-        ret_code = omega.Build(mol)
-        if ret_code == oeomega.OEOmegaReturnCode_Success:
-            oechem.OEWriteMolecule(ofs, mol)
-            for k, conf in enumerate(mol.GetConfs()):
-                ofs2 = oechem.oemolostream()
-                if not ofs2.open(os.path.join(folder, filename + '_' + str(k + 1) + '.mol2')):
-                    oechem.OEThrow.Fatal("Unable to open %s for writing" % outfile)
-                oechem.OEWriteMolecule(ofs2, conf)
-                nconf = k + 1
-            log.info('Created conformations for {} and saved them to {}'.format(infile, outfile))
-
-        else:
-            oechem.OEThrow.Warning("%s: %s" % (mol.GetTitle(), oeomega.OEGetOmegaError(ret_code)))
-
-    return nconf
-
-
-def create_std_target_file(name='', density=None, hov=None, dielectric=None):
-    """
-    This function creates the target data.csv files required by ForceBalance.
-    Up to now only 3 properties are supported.
-
-    :param name:
-    :param density:
-    :param hov:
-    :param dielectric:
-    :return:
-    """
-    header_csv = '''# This is documentation for the ForceBalance condensed phase reference data file
-,,,,,,
-,,,,,,
-Global,rho_denom,5,,,,
-Global,hvap_denom,0.5,,,,
-Global,alpha_denom,1,,,,
-Global,kappa_denom,5,,,,
-Global,cp_denom,2,,,,
-Global,eps0_denom,2,,,,
-Global,use_cvib_intra,FALSE,,,,
-Global,use_cvib_inter,FALSE,,,,
-Global,use_cni,FALSE,,,,
-,,,,,,
-,,,,,,
-'''
-    if name == '':
-        log.error(
-            'You did not specify a name for the target folder. Please use create_std_target_file(name=targetname,density=targetdensity,hov=target_heat,dielectric=target_eps0)')
-    f = open(name + '-liquid/data.csv', 'w')
-    f.write(header_csv)
-    if dielectric == None:
-        f.write('T,P,MBAR,Rho,Rho_wt,Hvap,Hvap_wt\n')
-        f.write('298.0,1.0 atm, FALSE,{},1,{},1\n'.format(density, hov))
-    else:
-        f.write('T,P,MBAR,Rho,Rho_wt,Hvap,Hvap_wt,eps0,eps0_wt\n')
-        f.write('298.0,1.0 atm, FALSE,{},1,{},1,{},1\n'.format(density, hov, dielectric))
-
-    f.close()
-    log.info('''Created target file {}-liquid/data.csv
-    Density: {} g/l
-    Heat of Vaporization: {} kcal/mol
-    Dielectric Constant: {}'''.format(name, density, hov, dielectric))
-    return 0
-
-
-def create_target(smiles='', name='', density=None, hov=None, dielectric=None, resname='MOL', nmol=700, tries=2000):
-    """
-    This functions creates a target including folder structure mol2 files and the data input file.
-
-    :param smiles:
-    :param name:
-    :param density:
-    :param hov:
-    :param dielectric:
-    :param resname:
-    :param nmol:
-    :param tries:
-    :return:
-    """
-    try:
-        os.mkdir(name + '-liquid')
-    except:
-        log.warning('folder {}-liquid already exists'.format(name))
-    foldername = name + '-liquid/'
-    create_std_target_file(name=name, density=density, hov=hov, dielectric=dielectric)
-    create_smifile_from_string(smiles=smiles, filename=foldername + resname + '.smi', )
-
-    # try except is necessary for really bulky molecules.
-    try:
-        create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 250, tries=tries,
-                                            input=foldername + resname + '.smi', resname=resname)
-    except:
-        try:
-            create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 350, tries=tries,
-                                                input=foldername + resname + '.smi', resname=resname)
-        except:
-            create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 400, tries=tries,
-                                                input=foldername + resname + '.smi', resname=resname)
-
-    # os.chdir(name+'-liquid')
-    return 0
-
-
-def create_smifile_from_string(smiles='', filename=''):
-    """
-    Writes a smile string to a file.
-
-    :param smiles:
-    :param filename:
-    :return:
-    """
-    f = open(filename, 'w')
-    f.write(smiles)
-    f.close()
-
-    return 0
-
-
-def optimize_conformers(opt=True, name='', resname='MOL', number_of_conformers=1):
-    """
-    Optimize all conformers using psi4. This is done in a 3 step approach were the level of theory is
-    increased stepwise. The resulting structures ares saved as xyz files. If opt = False the
-    optimization is omitted and only the files are copied.
-
-    :param opt:
-    :param name:
-    :param resname:
-    :param number_of_conformers:
-    :return:
-    """
-    header = """memory 12 gb
-molecule mol {
-noreorient
-nocom
-    """
-    tail_m1 = """
-}
-set basis 6-31G*
-optimize('HF')
-set basis cc-pV(D+d)Z
-optimize('HF')
-set basis cc-pV(D+d)Z
-optimize('PW6B95')
-
-"""
-
-    # 2 Convert mol2 files to xyz files and put them in the corresponding folder
-    obConversion = openbabel.OBConversion()
-    obConversion.SetInAndOutFormats("mol2", "xyz")
-
-    foldername = os.path.join(os.path.dirname(name), os.path.basename(name) + '-liquid')
-    filename = os.path.basename(name)
-    for i in range(1, number_of_conformers + 1):
-        inputfile = os.path.join(foldername, resname + '-conformers_' + str(i) + '.mol2')
-        outputfile = os.path.join(foldername, resname + '-conformers_' + str(i) + '.xyz')
-
-        mol = openbabel.OBMol()
-        obConversion.ReadFile(mol, inputfile)
-        obConversion.WriteFile(mol, outputfile)
-
-    if opt == True:
-
-        for i in range(1, number_of_conformers + 1):
-            xyz_file = os.path.join(foldername, resname + '-conformers_' + str(i) + '.xyz')
-            psi4_input_file = os.path.join(foldername, resname + '-conformers_' + str(i) + '.in')
-            psi4_output_file = os.path.join(foldername, resname + '-conformers_' + str(i) + '.out')
-            f = open(xyz_file, 'r')
-            coordinates = f.readlines()[2:]
-            f.close()
-            f = open(psi4_input_file, 'w')
-            f.write(header)
-            f.write('0 1\n')
-            for line in coordinates:
-                f.write(line)
-            f.write(tail_m1)
-            f.write("mol.save_xyz_file('{}',True)".format(
-                os.path.join(foldername, resname + '-confermers_opt_' + str(i) + '.xyz')))
-
-            f.close()
-
-            os.system('psi4 {} -n 4'.format(psi4_input_file))
-            if 'beer' in open(psi4_output_file).read():
-                log.info('Optimization of {} and conformer {} succesful'.format(filename, i))
-            else:
-                log.error('Optimization of {} and conformer {} FAILED!!!!!!'.format(filename, i))
-
-    else:
-        for i in range(1, number_of_conformers + 1):
-            if not os.path.exists(os.path.join(foldername, resname + '-confermers_opt_' + str(i) + '.xyz')):
-                shutil.copy(os.path.join(foldername, resname + '-confermers_' + str(i) + '.xyz'),
-                            os.path.join(foldername, resname + '-confermers_opt_' + str(i) + '.xyz'))
 
 
 def create_charge_file(name='', resname='MOL', delta=0.0, type='RESP1'):
@@ -441,8 +542,8 @@ def create_charge_file(name='', resname='MOL', delta=0.0, type='RESP1'):
     with a certain mixing parameter.
 
     :param name: name of the compound
-    :param resname: 3 letter abbrevation of the compound
-    :param delta: mixing parameter given as absolut value ( not percent)
+    :param resname: 3 letter abbreviation of the compound
+    :param delta: mixing parameter given as absolute value ( not percent)
     :param type: RESP1 or RESP2 type charges
     :return:
     """
@@ -542,91 +643,6 @@ def create_charge_file(name='', resname='MOL', delta=0.0, type='RESP1'):
     return 0
 
 
-def create_fb_input(name='', elements=[], forcefield='smirnoff99Frosst.offxml', port='3333', type='single',
-                    mol2_files=[], convergence='tight'):
-    cwdir = os.getcwd()
-    if os.path.isdir('targets') == True:
-        os.chdir('targets')
-    output = open(name, 'w')
-    create_fb_input_header(output=output, port=port, type=type, forcefield=forcefield, mol2_files=mol2_files,
-                           convergence=convergence)
-    for ele in elements:
-        abb = os.path.basename(glob.glob('{}-liquid/*box.pdb'.format(ele))[0])
-        abb = abb.split('-')[0]
-        output.write('''
-        
-$target
-name {}-liquid
-type Liquid_SMIRNOFF
-weight 1.0
-liquid_coords    {}-box.pdb
-liquid_eq_steps       50000
-liquid_prod_steps    5000000
-liquid_timestep 1.0
-liquid_interval         1.0
-save_traj               2
-gas_coords          {}.pdb
-gas_eq_steps     5000000
-gas_prod_steps     20000000
-gas_timestep 0.5
-$end
-'''.format(ele, abb, abb))
-    os.chdir(cwdir)
-
-
-def create_fb_input_header(output=None, port='3333', type='single', forcefield='smirnoff99Frosst.offxml', mol2_files=[],
-                           convergence='tight'):
-    output.write('''$options\n
-wp_port {}
-asynchronous    
-penalty_type L2
-jobtype {}
-forcefield {} '''.format(port, type, forcefield))
-    for ele in mol2_files:
-        output.write(ele + ' ')
-    output.write('\nmaxstep 100\nPENALTY_ADDITIVE 10\n')
-
-    if convergence == 'tight':
-        output.write("""
-convergence_step 0.001
-convergence_objective 30
-convergence_gradient 30
-criteria 2
-""")
-    elif convergence == 'loose':
-        output.write("""
-convergence_step 0.005
-convergence_objective 0.05
-convergence_gradient 0.001
-criteria 1
-        """)
-
-    else:
-        log.error('Convergence criteria not recognized')
-        sys.exit(1)
-
-    output.write('''
-eig_lowerbound 0.01
-finite_difference_h 0.001
-penalty_additive 1.0
-trust0 0.15
-mintrust 0.05
-error_tolerance 1.0
-adaptive_factor 0.2
-adaptive_damping 1.0
-normalize_weights no
-print_hessian
-constrain_charge false
-backup false
-
-priors
-   NonbondedForce/Atom/epsilon          : 0.1
-   NonbondedForce/Atom/rmin_half        : 1.0
-/priors
-
-''')
-
-    return 0
 
 
 def create_RESP2(folder='', opt=True, name='', resname='MOL', delta=1.0, density=None, hov=None, dielectric=None):
@@ -636,7 +652,7 @@ def create_RESP2(folder='', opt=True, name='', resname='MOL', delta=1.0, density
     except:
         print('Could not find file: {}'.format(infile))
     outfile = os.path.join(folder, '{}-conformers.mol2'.format(resname))
-    number_of_conformers = create_conformers(infile=infile, outfile=outfile)
+    number_of_conformers = create_conformers(infile=infile, outfile=outfile,folder = folder)
     name = os.path.join(os.path.dirname(folder), name)
     print(name)
     optimize_conformers(name=name, resname=resname, opt=opt, number_of_conformers=number_of_conformers)
