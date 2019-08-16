@@ -17,7 +17,7 @@ import logging as log
 
 try:
     import resp2.create_mol2_pdb as create_mol2_pdb
-except:
+except ModuleNotFoundError:
     import create_mol2_pdb
 import openbabel
 import shutil
@@ -146,7 +146,7 @@ Global,use_cni,FALSE,,,,
             'You did not specify a name for the target folder. Please use create_std_target_file(name=targetname,density=targetdensity,hov=target_heat,dielectric=target_eps0)')
     f = open(os.path.join(folder,'data.csv'), 'w')
     f.write(header_csv)
-    if dielectric == None:
+    if dielectric is None:
         f.write('T,P,MBAR,Rho,Rho_wt,Hvap,Hvap_wt\n')
         f.write('298.0,1.0 atm, FALSE,{},1,{},1\n'.format(density, hov))
     else:
@@ -181,7 +181,7 @@ def create_target(smiles='', name='', folder=None, density=None, hov=None, diele
         folder = name + '-liquid'
     try:
         os.mkdir(folder)
-    except:
+    except Exception:
         log.warning('folder {} already exists'.format(folder))
     create_std_target_file(name=name, folder = folder, density=density, hov=hov, dielectric=dielectric)
     create_smifile_from_string(smiles=smiles, filename=folder + resname + '.smi', )
@@ -190,11 +190,11 @@ def create_target(smiles='', name='', folder=None, density=None, hov=None, diele
     try:
         create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 250, tries=tries,
                                             input=folder + resname + '.smi', resname=resname)
-    except:
+    except Exception:
         try:
             create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 350, tries=tries,
                                                 input=folder + resname + '.smi', resname=resname)
-        except:
+        except Exception:
             create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 400, tries=tries,
                                                 input=folder + resname + '.smi', resname=resname)
 
@@ -371,19 +371,19 @@ def create_respyte(type='RESP1', name='', resname='MOL', number_of_conformers=1)
     foldername = name + '-' + type
     try:
         os.mkdir(foldername)
-    except:
+    except Exception:
         log.warning('folder {} already exists'.format(foldername))
     input_folder = os.path.join(foldername, 'input')
     molecule_folder = os.path.join(input_folder, 'molecules')
     mol_folder = os.path.join(molecule_folder, 'mol1')
     try:
         os.mkdir(input_folder)
-    except:
+    except Exception:
         log.warning('folder {} already exists'.format(input_folder))
 
     try:
         os.mkdir(molecule_folder)
-    except:
+    except Exception:
         log.warning('folder {} already exists'.format(molecule_folder))
 
     try:
@@ -395,7 +395,7 @@ def create_respyte(type='RESP1', name='', resname='MOL', number_of_conformers=1)
         conf_folder = os.path.join(mol_folder, 'conf' + str(i))
         try:
             os.mkdir(conf_folder)
-        except:
+        except Exception:
             log.warning('folder {} already exists'.format(conf_folder))
 
     log.info('Create folder structure for {} with {} conformers'.format(name, number_of_conformers))
@@ -410,7 +410,6 @@ def create_respyte(type='RESP1', name='', resname='MOL', number_of_conformers=1)
         shutil.copyfile(os.path.join(foldername, resname + '-confermers_opt_' + str(i) + '.xyz'),
                         os.path.join('{}-{}/input/molecules/mol1/conf{}/mol1_conf{}.xyz'.format(name, type, i, i)))
 
-    cwdir = os.getcwd()
     # 4 Run RESPyte and PSI4
     calculate_respyte(type=type, name=name, resname=resname, number_of_conformers=number_of_conformers)
 
@@ -437,7 +436,7 @@ def calculate_respyte(type='RESP1', name='', resname='MOL', number_of_conformers
         tmp_folder = os.path.join(conf_folder, 'tmp/')
         try:
             shutil.rmtree(tmp_folder)
-        except:
+        except Exception:
             pass
     os.system('python ~/programs/respyte/respyte/esp_generator.py')
     for i in range(1, number_of_conformers + 1):
@@ -646,11 +645,11 @@ def create_charge_file(name='', resname='MOL', delta=0.0, type='RESP1'):
 
 
 def create_RESP2(folder='', opt=True, name='', resname='MOL', delta=1.0, density=None, hov=None, dielectric=None):
-    name = name
     try:
         infile = os.path.join(folder, '{}.mol2'.format(resname))
-    except:
+    except Exception:
         print('Could not find file: {}'.format(infile))
+        sys.exti(1)
     outfile = os.path.join(folder, '{}-conformers.mol2'.format(resname))
     number_of_conformers = create_conformers(infile=infile, outfile=outfile,folder = folder)
     name = os.path.join(os.path.dirname(folder), name)
