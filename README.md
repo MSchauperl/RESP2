@@ -11,7 +11,7 @@ A template to create RESP2 charges
 
 ### Installation
 RESP 2 relies on the openforcefield toolkit, ForceBalance, pybabel, psi4 and respyte. Although, you could
-install all these programs single handed, we highly recommend you to install this program via conda
+install all these programs single handed, we highly recommend to install these programs via conda
 
 
 ### Example
