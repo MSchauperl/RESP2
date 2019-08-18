@@ -5,18 +5,15 @@
 
 Welcome to RESP2's documentation!
 =========================================================
-.. currentmodule:: resp2
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Contents:
+Functions
+========================================================
+.. currentmodule:: resp2
+.. automodule:: resp2.resp2
+   :members:
 
 Modules
 ==========================
-.. autosummary::
-   :nosignature:
-   :toctree:
-
 
 
 

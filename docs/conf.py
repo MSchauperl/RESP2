@@ -12,11 +12,14 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+sys.path.insert(0, os.path.abspath('.'))
 
+# bootstrap theme
+#import sphinx_bootstrap_theme
 
+import resp2
 # -- Project information -----------------------------------------------------
 
 project = 'RESP2'
@@ -41,9 +44,34 @@ release = ''
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    # 'sphinx.ext.napoleon',
+    'numpydoc',
+    'sphinx.ext.autosummary',
+    'sphinx.ext.doctest',
+    'sphinx.ext.todo',
     'sphinx.ext.mathjax',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.intersphinx',
+    'nbsphinx',
+    'm2r',  # render markdown
 ]
+autosummary_generate = True
+autodoc_default_flags = ['members', 'inherited-members']
+autodoc_member_order = 'bysource' # preserve ordering in source
+#autoclass_content = 'both'
+# Disable NumPy style attributes/methods expecting every method to have its own docs page
+numpydoc_class_members_toctree = False
 
+_python_doc_base = 'http://docs.python.org/3.6'
+intersphinx_mapping = {
+    _python_doc_base: None,
+    'http://docs.scipy.org/doc/numpy': None,
+    'http://docs.scipy.org/doc/scipy/reference': None,
+    'http://scikit-learn.org/stable': None
+}
+
+# Add any paths that contain templates here, relative to this directory.
+templates_path = ['_templates']
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
