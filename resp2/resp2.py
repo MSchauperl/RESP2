@@ -11,8 +11,11 @@ It can generate RESP1 and RESP2 charges with any given Delta value
 
 ### Global imports
 import sys, os
-from openeye import oechem
-from openeye import oeomega
+try:
+    from openeye import oechem
+    from openeye import oeomega
+except:
+    print('Could not load openeye!')
 import logging as log
 
 try:
