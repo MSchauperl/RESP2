@@ -1,0 +1,35 @@
+name: RESP2
+channels:
+  - openeye
+  - rdkit
+  - omnia
+  - psi4
+  - bioconda
+  - openbabel
+dependencies:
+# Base depends
+  - python
+  - pip
+  - typing
+  - scipy
+  - numpy
+  - openeye-toolkits
+  - rdkit
+  - openforcefield
+  - pint
+  - psi4
+  - pymbar
+  - forcebalance
+  - pandas
+  - pyyaml
+  - matplotlib
+  - future
+  - openmoltools
+  - gromacs
+  - openbabel
+
+
+    # Testing
+  - pytest
+  - pytest-cov
+  - codecov
