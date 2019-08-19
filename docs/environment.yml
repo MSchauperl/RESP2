@@ -28,8 +28,3 @@ dependencies:
   - gromacs
   - openbabel
 
-
-    # Testing
-  - pytest
-  - pytest-cov
-  - codecov
