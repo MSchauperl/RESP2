@@ -1,11 +1,8 @@
 name: documentation
 channels:
-  - openeye
-  - rdkit
   - omnia
-  - psi4
-  - bioconda
-  - openbabel
+  - conda-forge
+  - default
 dependencies:
 # Base depends
   - python
