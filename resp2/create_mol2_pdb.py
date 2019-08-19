@@ -7,7 +7,10 @@ This version was adapted for the use in the RESP2 package.
 
 from forcebalance.molecule import Molecule
 from forcebalance.nifty import which
-from openeye import oechem
+try:
+    from openeye import oechem
+except:
+    print('Could not import openeye')
 import openmoltools 
 import os, sys, time, argparse, subprocess
 import shutil

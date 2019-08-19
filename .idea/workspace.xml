@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c2a52a68-a340-4f6e-bce4-dacaa803573b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/environment.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/environment.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -175,7 +176,7 @@
       <workItem from="1565981954983" duration="4110000" />
       <workItem from="1565991996283" duration="1122000" />
       <workItem from="1565993769915" duration="5392000" />
-      <workItem from="1566235971058" duration="3839000" />
+      <workItem from="1566235971058" duration="4559000" />
     </task>
     <task id="LOCAL-00001" summary="Include Ethanol Example">
       <created>1563917087196</created>
