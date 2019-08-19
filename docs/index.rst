@@ -8,7 +8,6 @@ Welcome to RESP2's documentation!
 
 Functions
 ========================================================
-.. currentmodule:: resp2
 .. automodule:: resp2.resp2
    :members:
 
