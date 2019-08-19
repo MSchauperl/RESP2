@@ -14,6 +14,8 @@ dependencies:
   - scipy
   - numpy
   - numpydoc
+  - pip:
+    - nbsphinx
   #- forcebalance
   #- openmoltools
   #- openbabel
