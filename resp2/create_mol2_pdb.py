@@ -4,14 +4,20 @@
 The intial version of this code is part of the openforcefield package and was written by Lee-Ping Wang.
 This version was adapted for the use in the RESP2 package.
 """
-
-from forcebalance.molecule import Molecule
-from forcebalance.nifty import which
+try:
+    from forcebalance.molecule import Molecule
+    from forcebalance.nifty import which
+except:
+    print('Could not import ForceBalance')
 try:
     from openeye import oechem
 except:
     print('Could not import openeye')
-import openmoltools 
+
+try:
+    import openmoltools
+except:
+    print('Could not import openmoltools')
 import os, sys, time, argparse, subprocess
 import shutil
 import logging as log

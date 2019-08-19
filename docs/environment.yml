@@ -13,6 +13,6 @@ dependencies:
   - typing
   - scipy
   - numpy
-  - forcebalance
-  - openmoltools
-  - openbabel
+  #- forcebalance
+  #- openmoltools
+  #- openbabel

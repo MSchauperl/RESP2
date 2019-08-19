@@ -22,7 +22,10 @@ try:
     import resp2.create_mol2_pdb as create_mol2_pdb
 except ModuleNotFoundError:
     import create_mol2_pdb
-import openbabel
+try:
+    import openbabel
+except:
+    print('Could not import openbabel')
 import shutil
 import glob
 
