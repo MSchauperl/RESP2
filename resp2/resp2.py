@@ -150,11 +150,11 @@ def create_std_target_file(name='', density=None, folder = None, hov=None, diele
     This function creates the target data.csv files required by ForceBalance.
     Up to now only 3 properties are supported.
 
-    :param name:
-    :param density:
-    :param hov:
-    :param dielectric:
-    :return:
+    :param name: Name of the molecule. Folders are named accordingly.
+    :param density: Density of the molecule in kg / m3
+    :param hov: Heats of Vaporization in kJ /kcal / mol
+    :param dielectric: Dielectric constant
+    :return: 0 if successful
     """
     header_csv = '''# This is documentation for the ForceBalance condensed phase reference data file
 ,,,,,,
@@ -193,17 +193,18 @@ Global,use_cni,FALSE,,,,
 
 def create_target(smiles='', name='', folder=None, density=None, hov=None, dielectric=None, resname='MOL', nmol=700, tries=2000):
     """
-    This functions creates a target including folder structure mol2 files and the data input file.
+    This functions creates a target including folder structure mol2 files and the data.csv file.
+    Charges are done separate.
 
-    :param smiles:
-    :param name:
-    :param folder:
-    :param density:
-    :param hov:
-    :param dielectric:
-    :param resname:
-    :param nmol:
-    :param tries:
+    :param smiles: SMILES Code of the molecule.
+    :param name: Name of the molecule. Folders are named accordingly.
+    :param density: Density of the molecule in kg / m3
+    :param hov: Heats of Vaporization in kJ /kcal / mol
+    :param dielectric: Dielectric constant
+    :param folder: Name of the folder for the target. If not specified. {name}-liquid is used.
+    :param resname: Abbreviation of the Residue. Specified in the mol2
+    :param nmol: Number of molecules in the liquid simulation box.
+    :param tries: Number of tries to create the liquid simulation box. For bulky molecules higher values are necessary.
     :return:
     """
     # Check if folder is specified. If not than use standard folder
