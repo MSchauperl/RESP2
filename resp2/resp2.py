@@ -34,15 +34,27 @@ import glob
 
 ### Functions to create ForceBalance targets. Not required for RESP2 charges per se.
 
-def create_fb_input(name='', elements=[], forcefield='smirnoff99Frosst.offxml', port='3333', type='single',
+def create_fb_input(name='', targets=[], forcefield='smirnoff99Frosst.offxml', port='3333', type='single',
                     mol2_files=[], convergence='tight'):
+    """
+    Module to create a ForceBalance input file for training or testing purposes.
+
+    :param name: Name of the ForceBalance input file you want to create.
+    :param targets: The targets you want to inlcude in the run.
+    :param forcefield: Name of the forcefield file.
+    :param port: Port to use for work_queue.
+    :param type: Single point or an optimization.
+    :param mol2_files: List of mol2 files necessary for the calculation. Usually this should include all RESP2 charge files.
+    :param convergence: tight or loose convergence criteria.
+    :return: 0 if succesful.
+    """
     cwdir = os.getcwd()
     if os.path.isdir('targets') == True:
         os.chdir('targets')
     output = open(name, 'w')
     create_fb_input_header(output=output, port=port, type=type, forcefield=forcefield, mol2_files=mol2_files,
                            convergence=convergence)
-    for ele in elements:
+    for ele in targets:
         abb = os.path.basename(glob.glob('{}-liquid/*box.pdb'.format(ele))[0])
         abb = abb.split('-')[0]
         output.write('''
@@ -68,6 +80,18 @@ $end
 
 def create_fb_input_header(output=None, port='3333', type='single', forcefield='smirnoff99Frosst.offxml', mol2_files=[],
                            convergence='tight'):
+    """
+    This function is used to generate the header of the ForceBalance input file ($options section).
+    The targets are not included in this function.
+
+    :param output: file to write to.
+    :param forcefield: Name of the forcefield file.
+    :param port: Port to use for work_queue.
+    :param type: Single point or an optimization.
+    :param mol2_files: List of mol2 files necessary for the calculation. Usually this should include all RESP2 charge files.
+    :param convergence: tight or loose convergence criteria.
+    :return:
+    """
     output.write('''$options\n
 wp_port {}
 asynchronous    
