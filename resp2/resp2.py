@@ -249,13 +249,16 @@ def create_smifile_from_string(smiles='', filename=''):
 
 ### RESP2 functions. Ordered in sequence of expected use.
 
-def create_conformers(infile=None, outfile=None, folder= None, name = None):
+def create_conformers(infile=None, outfile=None, resname=None, folder= None, name = None):
+
     """
     This function takes a mol1 file and runs Openeye's omega to create conformers for the molecules
     The conformers are stored in separated files, adding the number of the conformer at the end of the filename
 
     :param infile: Path to input file
     :param outfile: Path to output file return
+    :param resname:
+    :param folder:
     :return: Number of conformers for this molecule
     """
     if folder is None and name is None:
@@ -284,8 +287,8 @@ def create_conformers(infile=None, outfile=None, folder= None, name = None):
     omega.SetEnergyWindow(9.0)
     omega.SetMaxConfs(4)
     omega.SetRangeIncrement(2)
-    omega.SetRMSRange([-1.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5])
-    filename = outfile.split('.')[-1]
+    omega.SetRMSRange([0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5])
+    filename = '{}-conformers'.format(resname)
     for mol in ifs.GetOEMols():
         ret_code = omega.Build(mol)
         if ret_code == oeomega.OEOmegaReturnCode_Success:
@@ -341,7 +344,7 @@ optimize('PW6B95')
     for i in range(1, number_of_conformers + 1):
         inputfile = os.path.join(folder, resname + '-conformers_' + str(i) + '.mol2')
         outputfile = os.path.join(folder, resname + '-conformers_' + str(i) + '.xyz')
-
+        print('DEBUG {}'.format(inputfile))
         mol = openbabel.OBMol()
         obConversion.ReadFile(mol, inputfile)
         obConversion.WriteFile(mol, outputfile)
@@ -675,29 +678,45 @@ def create_charge_file(name='', resname='MOL', delta=0.0, type='RESP1'):
 
 
 
-def create_RESP2(folder='', opt=True, name='', resname='MOL', delta=1.0, density=None, hov=None, dielectric=None):
+def create_RESP2(smi = None,folder='', opt=True, name='', resname='MOL', delta=1.0, density=None, hov=None, dielectric=None):
     """
-
-    :param folder:
-    :param opt:
-    :param name:
-    :param resname:
-    :param delta:
-    :param density:
-    :param hov:
-    :param dielectric:
+    Creates a mol2 file with RESP2 charges from a mol2 file (resname.mol2) or from a smiles string.
+    :param folder: folder to write the output files.
+    :param opt: True when generated conformers should be locally optimized.
+    :param name: Name of the compound
+    :param density: Density of the molecule in kg / m3
+    :param hov: Heats of Vaporization in kJ /kcal / mol
+    :param dielectric: Dielectric constant
+    :param folder: Name of the folder for the target. If not specified. {name}-liquid is used.
+    :param resname: Abbreviation of the Residue. Specified in the mol2
+    :param delta: Fraction (in percent) of liquid charges. default=1.0
     :return:
     """
-    try:
-        infile = os.path.join(folder, '{}.mol2'.format(resname))
-    except Exception:
-        print('Could not find file: {}'.format(infile))
-        sys.exti(1)
-    outfile = os.path.join(folder, '{}-conformers.mol2'.format(resname))
-    number_of_conformers = create_conformers(infile=infile, outfile=outfile,folder = folder)
-    name = os.path.join(os.path.dirname(folder), name)
-    print(name)
-    optimize_conformers(name=name, resname=resname, opt=opt, number_of_conformers=number_of_conformers)
+
+    if folder is None:
+        folder = name + '-liquid'
+    if not os.path.isdir(folder):
+        os.mkdir(folder)
+    infile =  '{}.mol2'.format(resname)
+    infile_path = os.path.join(folder, '{}.mol2'.format(resname))
+    if not os.path.isfile(infile_path):
+        log.warning('Could not find file: {}'.format(infile_path))
+        if smi is not None:
+            log.warning('Create molecule from SMILES string')
+            create_smifile_from_string(smiles=smi,filename=os.path.join(folder,'{}.smi'.format(resname)))
+
+            obConversion = openbabel.OBConversion()
+            obConversion.SetInAndOutFormats("smi", "mol2")
+
+            inputfile = os.path.join(folder, resname + '.smi')
+            outputfile = os.path.join(folder, resname + '.mol2')
+
+            mol = openbabel.OBMol()
+            obConversion.ReadFile(mol, inputfile)
+            obConversion.WriteFile(mol, outputfile)
+    outfile = '{}-conformers.mol2'.format(resname)
+    number_of_conformers = create_conformers(infile=infile, outfile=outfile,resname = resname,folder = folder)
+    optimize_conformers(name=name, resname=resname, opt=opt, number_of_conformers=number_of_conformers,folder = folder)
     create_respyte(name=name, resname=resname, type='RESP2LIQUID', number_of_conformers=number_of_conformers)
     create_respyte(name=name, resname=resname, type='RESP2GAS', number_of_conformers=number_of_conformers)
     create_respyte(name=name, resname=resname, type='RESP1', number_of_conformers=number_of_conformers)
@@ -707,16 +726,8 @@ def create_RESP2(folder='', opt=True, name='', resname='MOL', delta=1.0, density
 
 if __name__ == "__main__":
     log.getLogger().setLevel(log.INFO)
-    create_target(name='data/methanol', density=789.3, hov=42.3, dielectric=32.7, smiles='CO', resname='MET')
-    create_RESP2(opt=True, name='methanol', resname='MET', folder='data/methanol-liquid')
-    os.path.isfile
-    # number_of_conformers = create_conformers(infile='data/ETH.mol2', outfile='data/MET-conformers.mol2')
-    # optimize_conformers(name ='data/ethanol',resname ='ETH', opt = False,number_of_conformers=number_of_conformers)
-    # create_respyte(name ='data/ethanol',resname ='ETH', type='RESP2LIQUID',number_of_conformers=number_of_conformers)
-    # create_respyte(name ='data/ethanol',resname ='ETH', type='RESP2GAS',number_of_conformers=number_of_conformers)
-    # create_respyte(name ='data/ethanol',resname ='ETH', type='RESP1',number_of_conformers=number_of_conformers)
-    # create_charge_file(name='data/ethanol',resname ='ETH', type = 'RESP1', delta= 2.0)
-    # os.chdir('data')
-    # create_fb_input(name='test_fb.in', elements=['ethanol'], forcefield='smirnoff99Frosst.offxml', port='3333',
-    #                type='single',
-    #                mol2_files=['ETH-resp2.mol2'], convergence='tight')
+    #create_RESP2(smi = 'CO', opt=True, name='methanol2', resname='MET', folder='methanol-liquid')\
+    print(os.getcwd())
+    number_of_conformers = create_conformers(infile='MTH.mol2', resname = 'MTH', outfile='MTH-conformers.mol2', folder = '/home/mschauperl/programs/RESP2/example/methanol2-liquid')
+    #optimize_conformers(name='methanol2', resname='MTH', opt=True, number_of_conformers=1)
+

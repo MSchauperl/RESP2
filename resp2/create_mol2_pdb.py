@@ -28,11 +28,11 @@ def CalculateMolecularWeight(mol):
     
     Parameters
     ----------
-    :param mmol : OEGraphMol
+    mmol : OEGraphMol
     
     Returns
     -------
-    :return float
+    float
         Molecular weight in g/mol
     """
     result = 0.0
