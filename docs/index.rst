@@ -11,9 +11,11 @@ Functions
 .. automodule:: resp2.resp2
    :members:
 
-Modules
+Other Modules
 ==========================
 
+.. automodule:: resp2.create_mol2_pdb
+   :members:
 
 
 Indices and tables
