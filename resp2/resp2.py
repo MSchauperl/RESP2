@@ -236,8 +236,8 @@ def create_smifile_from_string(smiles='', filename=''):
     """
     Writes a smile string to a file.
 
-    :param smiles:
-    :param filename:
+    :param smiles: SMILES Code of the molecule.
+    :param filename: Filename (.smi)
     :return:
     """
     f = open(filename, 'w')
@@ -309,10 +309,10 @@ def optimize_conformers(opt=True, name='', resname='MOL', number_of_conformers=1
     increased stepwise. The resulting structures ares saved as xyz files. If opt = False the
     optimization is omitted and only the files are copied.
 
-    :param opt:
-    :param name:
-    :param resname:
-    :param number_of_conformers:
+    :param opt: True if optimization should be performed.
+    :param name: Name of the molecule. Folders are named accordingly.
+    :param resname: Abbreviation of the Residue. Specified in the mol2
+    :param number_of_conformers: Number of conformers for this molecule
     :return:
     """
     header = """memory 12 gb
@@ -474,7 +474,7 @@ def calculate_respyte(type='RESP1', name='', resname='MOL', number_of_conformers
         conf_folder = os.path.join(mol_folder, 'conf' + str(i))
         psi4_output_file = os.path.join(conf_folder, 'tmp/output.dat')
         if 'beer' in open(psi4_output_file).read():
-            log.info('ESP calculation for {} and conformer {} succesful'.format(name, i))
+            log.info('ESP calculation for {} and conformer {} successful'.format(name, i))
         else:
             log.error('ESP calculation for {} and conformer {} FAILED!!!!!!'.format(name, i))
 
@@ -571,8 +571,8 @@ def create_charge_file(name='', resname='MOL', delta=0.0, type='RESP1'):
     This function creates a MOL2 file with either RESP1 scaled charges or RESP2 charges
     with a certain mixing parameter.
 
-    :param name: name of the compound
-    :param resname: 3 letter abbreviation of the compound
+    :param name: name of the compound.
+    :param resname: 3 letter abbreviation of the compound.
     :param delta: mixing parameter given as absolute value ( not percent)
     :param type: RESP1 or RESP2 type charges
     :return:
@@ -676,6 +676,18 @@ def create_charge_file(name='', resname='MOL', delta=0.0, type='RESP1'):
 
 
 def create_RESP2(folder='', opt=True, name='', resname='MOL', delta=1.0, density=None, hov=None, dielectric=None):
+    """
+
+    :param folder:
+    :param opt:
+    :param name:
+    :param resname:
+    :param delta:
+    :param density:
+    :param hov:
+    :param dielectric:
+    :return:
+    """
     try:
         infile = os.path.join(folder, '{}.mol2'.format(resname))
     except Exception:

@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c2a52a68-a340-4f6e-bce4-dacaa803573b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/mschauperl.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/mschauperl.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/readthedocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/readthedocs.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,14 +13,6 @@
   </component>
   <component name="FavoritesManager">
     <favorites_list name="RESP2" />
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>number_of</find>
-      <find>molecule</find>
-      <find>create</find>
-      <find>create_mol2</find>
-    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -178,6 +169,7 @@
       <workItem from="1565991996283" duration="1122000" />
       <workItem from="1565993769915" duration="5392000" />
       <workItem from="1566235971058" duration="8711000" />
+      <workItem from="1566319845845" duration="3254000" />
     </task>
     <task id="LOCAL-00001" summary="Include Ethanol Example">
       <created>1563917087196</created>
