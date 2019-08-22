@@ -1,12 +1,13 @@
-name: test
+name: RESP2
 channels:
+  - conda-forge
   - openeye
   - rdkit
-  - omnia
   - psi4
-
+  - bioconda
+  - openbabel
 dependencies:
-    # Base depends
+# Base depends
   - python
   - pip
   - typing
@@ -23,10 +24,12 @@ dependencies:
   - pyyaml
   - matplotlib
   - future
+  - openmoltools
+  - gromacs
+  - openbabel
+
 
     # Testing
   - pytest
   - pytest-cov
   - codecov
-
-

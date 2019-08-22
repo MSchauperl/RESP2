@@ -6,6 +6,21 @@
 Welcome to RESP2's documentation!
 =========================================================
 
+Installation
+=========================================================
+To install all necessary packages we recommend to follow these steps.
+
+1.) Download the RESP2 package
+
+2.) Install the Conda environment RESP2
+
+3.) Install the RESP2 package
+
+4.) Download the respyte package
+
+5.) Install respyte package
+
+
 Functions
 ========================================================
 .. automodule:: resp2.resp2

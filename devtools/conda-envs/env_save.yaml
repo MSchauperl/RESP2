@@ -1,11 +1,13 @@
-name: test
+name: test-delete
 channels:
+  - conda-forge
   - openeye
   - rdkit
-  - omnia
-
+  - psi4
+  - bioconda
+  - openbabel
 dependencies:
-    # Base depends
+# Base depends
   - python
   - pip
   - typing
@@ -15,9 +17,19 @@ dependencies:
   - rdkit
   - openforcefield
   - pint
+  - psi4
+  - pymbar
+  - forcebalance
+  - pandas
+  - pyyaml
+  - matplotlib
+  - future
+  - openmoltools
+  - gromacs
+  - openbabel
+
 
     # Testing
   - pytest
   - pytest-cov
-
-
+  - codecov
