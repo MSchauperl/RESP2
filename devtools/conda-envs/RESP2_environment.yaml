@@ -3,6 +3,7 @@ channels:
   - conda-forge
   - openeye
   - rdkit
+  - omnia
   - psi4
   - bioconda
   - openbabel
