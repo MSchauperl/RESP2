@@ -215,20 +215,21 @@ def create_target(smiles='', name='', folder=None, density=None, hov=None, diele
     except Exception:
         log.warning('folder {} already exists'.format(folder))
     create_std_target_file(name=name, folder = folder, density=density, hov=hov, dielectric=dielectric)
-    create_smifile_from_string(smiles=smiles, filename=folder + resname + '.smi', )
-
+    create_smifile_from_string(smiles=smiles, filename=os.path.join(folder, resname + '.smi'))
+    cwd = os.getcwd()
+    os.chdir(folder)
     # try except is necessary for really bulky molecules.
     try:
         create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 250, tries=tries,
-                                            input=folder + resname + '.smi', resname=resname)
+                                            input= resname + '.smi', resname=resname)
     except Exception:
         try:
             create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 350, tries=tries,
-                                                input=folder + resname + '.smi', resname=resname)
+                                                input=resname + '.smi', resname=resname)
         except Exception:
             create_mol2_pdb.run_create_mol2_pdb(nmol=nmol, density=density - 400, tries=tries,
-                                                input=folder + resname + '.smi', resname=resname)
-
+                                                input= resname + '.smi', resname=resname)
+    os.chdir(cwd)
     return 0
 
 
@@ -269,11 +270,11 @@ def create_conformers(infile=None, outfile=None, resname=None, folder= None, nam
     infilepath = os.path.join(folder, infile)
     outfilepath = os.path.join(folder, outfile)
     ifs = oechem.oemolistream()
-    if not ifs.open(infile):
+    if not ifs.open(infilepath):
         oechem.OEThrow.Fatal("Unable to open %s for reading" % infilepath)
 
     ofs = oechem.oemolostream()
-    if not ofs.open(outfile):
+    if not ofs.open(outfilepath):
         oechem.OEThrow.Fatal("Unable to open %s for writing" % outfilepath)
 
     if not oechem.OEIs2DFormat(ofs.GetFormat()):
@@ -298,7 +299,7 @@ def create_conformers(infile=None, outfile=None, resname=None, folder= None, nam
                 if not ofs1.open(os.path.join(folder, filename + '_' + str(k + 1) + '.mol2')):
                     oechem.OEThrow.Fatal("Unable to open %s for writing" % os.path.join(folder, filename + '_' + str(k + 1) + '.mol2'))
                 oechem.OEWriteMolecule(ofs1, conf)
-                nconf = k + 0
+                nconf = k + 1
             log.info('Created conformations for {} and saved them to {}'.format(infilepath, outfilepath))
 
         else:
@@ -697,7 +698,7 @@ def create_RESP2(smi = None,folder='', opt=True, name='', resname='MOL', delta=1
         folder = name + '-liquid'
     if not os.path.isdir(folder):
         os.mkdir(folder)
-    infile =  '{}.mol2'.format(resname)
+    infile = '{}.mol2'.format(resname)
     infile_path = os.path.join(folder, '{}.mol2'.format(resname))
     if not os.path.isfile(infile_path):
         log.warning('Could not find file: {}'.format(infile_path))
@@ -727,7 +728,8 @@ def create_RESP2(smi = None,folder='', opt=True, name='', resname='MOL', delta=1
 if __name__ == "__main__":
     log.getLogger().setLevel(log.INFO)
     #create_RESP2(smi = 'CO', opt=True, name='methanol2', resname='MET', folder='methanol-liquid')\
-    print(os.getcwd())
+    #print(os.getcwd())
     number_of_conformers = create_conformers(infile='MTH.mol2', resname = 'MTH', outfile='MTH-conformers.mol2', folder = '/home/mschauperl/programs/RESP2/example/methanol2-liquid')
+
     #optimize_conformers(name='methanol2', resname='MTH', opt=True, number_of_conformers=1)
 

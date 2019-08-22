@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c2a52a68-a340-4f6e-bce4-dacaa803573b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/mschauperl.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/mschauperl.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/Ethanol_Example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/example/Ethanol_Example.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resp2/resp2.py" beforeDir="false" afterPath="$PROJECT_DIR$/resp2/resp2.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,7 +40,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.conf">
+  <component name="RunManager" selected="Python.resp2">
     <configuration name="conf" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="resp2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -136,8 +137,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.conf" />
         <item itemvalue="Python.resp2" />
+        <item itemvalue="Python.conf" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.correct_atomypes_mol2" />
       </list>
@@ -223,7 +224,7 @@
     <SUITE FILE_PATH="coverage/resp2$test.coverage" NAME="test Coverage Results" MODIFIED="1563915288738" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
     <SUITE FILE_PATH="coverage/resp2$correct_atomypes_mol2.coverage" NAME="correct_atomypes_mol2 Coverage Results" MODIFIED="1562900039827" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/resp2" />
     <SUITE FILE_PATH="coverage/resp2$resp2.coverage" NAME="resp2 Coverage Results" MODIFIED="1563927777068" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/resp2" />
-    <SUITE FILE_PATH="coverage/RESP2$resp2.coverage" NAME="resp2 Coverage Results" MODIFIED="1565992298542" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/resp2" />
+    <SUITE FILE_PATH="coverage/RESP2$resp2.coverage" NAME="resp2 Coverage Results" MODIFIED="1566430418507" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/resp2" />
     <SUITE FILE_PATH="coverage/RESP2$conf.coverage" NAME="conf Coverage Results" MODIFIED="1566005150814" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/docs" />
   </component>
 </project>
