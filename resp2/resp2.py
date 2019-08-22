@@ -23,9 +23,10 @@ try:
 except ModuleNotFoundError:
     import create_mol2_pdb
 try:
+    import pybel
     import openbabel
 except:
-    print('Could not import openbabel')
+    print('Could not import pybel')
 import shutil
 import glob
 
@@ -704,17 +705,11 @@ def create_RESP2(smi = None,folder='', opt=True, name='', resname='MOL', delta=1
         log.warning('Could not find file: {}'.format(infile_path))
         if smi is not None:
             log.warning('Create molecule from SMILES string')
-            create_smifile_from_string(smiles=smi,filename=os.path.join(folder,'{}.smi'.format(resname)))
-
-            obConversion = openbabel.OBConversion()
-            obConversion.SetInAndOutFormats("smi", "mol2")
-
-            inputfile = os.path.join(folder, resname + '.smi')
             outputfile = os.path.join(folder, resname + '.mol2')
-
-            mol = openbabel.OBMol()
-            obConversion.ReadFile(mol, inputfile)
-            obConversion.WriteFile(mol, outputfile)
+            mymol = pybel.readstring("smi", smi)
+            mymol.addh()
+            mymol.make3D()
+            mymol.write(format='mol2',filename=outputfile, overwrite=True)
     outfile = '{}-conformers.mol2'.format(resname)
     number_of_conformers = create_conformers(infile=infile, outfile=outfile,resname = resname,folder = folder)
     optimize_conformers(name=name, resname=resname, opt=opt, number_of_conformers=number_of_conformers,folder = folder)
