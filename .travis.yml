@@ -35,7 +35,7 @@ before_install:
 install:
 
     # Create test environment for package
-  - python devtools/scripts/create_conda_env.py -n=test -p=$PYTHON_VER devtools/conda-envs/RESP2_environment.yaml
+  - python devtools/scripts/create_conda_env.py -n=RESP2 -p=$PYTHON_VER devtools/conda-envs/RESP2_environment.yaml
     # Activate the test environment
   - conda activate RESP2
     # Build and install package
