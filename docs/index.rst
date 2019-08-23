@@ -6,17 +6,8 @@
 Welcome to RESP2's documentation!
 =========================================================
 
-RESP2 charge generation and ForceBalance Input generation
-----------------------------------------------------------
 .. automodule:: resp2.resp2
    :members:
-
-Other Modules
-==========================
-
-.. automodule:: resp2.create_mol2_pdb
-   :members:
-
 
 Indices and tables
 ==================
