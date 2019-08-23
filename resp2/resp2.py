@@ -313,7 +313,7 @@ def optimize_conformers(opt=True, name='', resname='MOL', number_of_conformers=1
     """
     Optimize all conformers using psi4. This is done in a 3 step approach were the level of theory is
     increased stepwise. The resulting structures ares saved as xyz files. If opt = False the
-    optimization is omitted and only the files are copied.
+    optimization is omitted and only the files are copied
 
     :param opt: True if optimization should be performed.
     :param name: Name of the molecule. Folders are named accordingly.
