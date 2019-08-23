@@ -1,12 +1,13 @@
 """
-resp2.py
-This module includes the basic function to parameterize a molecule with RESP2 charges.
+resp2.py includes the basic functions to parameterize a molecule with RESP2 charges.
 It allows to create a molecule from a Smiles string and obtain 3D structures.
 It uses openeye's omega to generate conformations.
 Respyte is used to select ESP grid points
-Psi4 is used for the QM calculation.
+Psi4 is used for the QM calculations.
 
-It can generate RESP1 and RESP2 charges with any given Delta value
+It can generate RESP2 charges with any given Delta value.
+
+It can also be used to scale RESP1 charges (only neutral molecules).
 """
 
 ### Global imports
@@ -46,7 +47,7 @@ def create_fb_input(name='', targets=[], forcefield='smirnoff99Frosst.offxml', p
     :param port: Port to use for work_queue.
     :param type: Single point or an optimization.
     :param mol2_files: List of mol2 files necessary for the calculation. Usually this should include all RESP2 charge files.
-    :param convergence: tight or loose convergence criteria.
+    :param convergence: <tight> or <loose> convergence criteria.
     :return: 0 if succesful.
     """
     cwdir = os.getcwd()
@@ -83,14 +84,14 @@ def create_fb_input_header(output=None, port='3333', type='single', forcefield='
                            convergence='tight'):
     """
     This function is used to generate the header of the ForceBalance input file ($options section).
-    The targets are not included in this function.
+    The targets are not included in this function. Is used by create_fb_input.
 
-    :param output: file to write to.
+    :param output: File to write to.
     :param forcefield: Name of the forcefield file.
     :param port: Port to use for work_queue.
     :param type: Single point or an optimization.
     :param mol2_files: List of mol2 files necessary for the calculation. Usually this should include all RESP2 charge files.
-    :param convergence: tight or loose convergence criteria.
+    :param convergence: <tight> or <loose> convergence criteria.
     :return:
     """
     output.write('''$options\n
@@ -149,7 +150,7 @@ priors
 def create_std_target_file(name='', density=None, folder = None, hov=None, dielectric=None):
     """
     This function creates the target data.csv files required by ForceBalance.
-    Up to now only 3 properties are supported.
+    Up to now only 3 properties are supported. Is used by create_target.
 
     :param name: Name of the molecule. Folders are named accordingly.
     :param density: Density of the molecule in kg / m3
@@ -236,7 +237,7 @@ def create_target(smiles='', name='', folder=None, density=None, hov=None, diele
 
 def create_smifile_from_string(smiles='', filename=''):
     """
-    Writes a smile string to a file.
+    Writes a SMILES string to a file.
 
     :param smiles: SMILES Code of the molecule.
     :param filename: Filename (.smi)
@@ -259,8 +260,8 @@ def create_conformers(infile=None, outfile=None, resname=None, folder= None, nam
 
     :param infile: Path to input file
     :param outfile: Path to output file return
-    :param resname:
-    :param folder:
+    :param folder: Name of the folder for the target. If not specified. {name}-liquid is used.
+    :param resname: Abbreviation of the Residue. Specified in the mol2
     :return: Number of conformers for this molecule
     """
     if folder is None and name is None:
@@ -318,6 +319,8 @@ def optimize_conformers(opt=True, name='', resname='MOL', number_of_conformers=1
     :param name: Name of the molecule. Folders are named accordingly.
     :param resname: Abbreviation of the Residue. Specified in the mol2
     :param number_of_conformers: Number of conformers for this molecule
+    :param folder: Name of the folder for the target. If not specified. {name}-liquid is used.
+
     :return:
     """
     header = """memory 12 gb
@@ -385,25 +388,30 @@ optimize('PW6B95')
 
 
 
-def create_respyte(type='RESP1', name='', resname='MOL', number_of_conformers=1):
+def create_respyte(type='RESP1', name='', resname='MOL', number_of_conformers=1, opt_folder=None ):
     """
     This function creates the respyte input files to generate the selection of ESP grid points by calling the function
     create_respyte_input_files.
     Additionally, it generates the input for the psi4 QM calculation at the requested level of theory.
 
     Theory level is determined by the type of the calculation.
-    RESP1 uses HF/6-31G*
-    RESP2GAS uses PW6BP94/aug-cc-pV(D+d)Z
-    RESP2LIQUID uses PW6BP94/aug-cc-pV(D+d)Z with PCM (water)
+    RESP1 uses HF/6-31G*;
+    RESP2GAS uses PW6BP94/aug-cc-pV(D+d)Z;
+    RESP2LIQUID uses PW6BP94/aug-cc-pV(D+d)Z with PCM (water).
 
-    :param type: defines what type of QM calculation to perform
-    :param name: name of the compound
+    :param type: Defines what type of QM calculation to perform
+    :param name: Name of the compound
     :param resname: 3 letter abbreviation of the compound
     :param number_of_conformers: Number of conformers used for this compound
+    :param opt_folder: Name of the folder used for optimize_conformers. If not specified. {name}-liquid is used.
+
     :return: 0 if successful
     """
     # 1 Create folder structure for respyte
     # Details of the folder structure are explained in the respyte github repository
+    if opt_folder is None:
+        opt_folder = name +'-liquid'
+
     foldername = name + '-' + type
     try:
         os.mkdir(foldername)
@@ -442,8 +450,7 @@ def create_respyte(type='RESP1', name='', resname='MOL', number_of_conformers=1)
     # 3 Copy optimized files
     # Looks for the optimized files
     for i in range(1, number_of_conformers + 1):
-        foldername = os.path.join(os.path.dirname(name), os.path.basename(name) + '-liquid')
-        shutil.copyfile(os.path.join(foldername, resname + '-confermers_opt_' + str(i) + '.xyz'),
+        shutil.copyfile(os.path.join(opt_folder, resname + '-confermers_opt_' + str(i) + '.xyz'),
                         os.path.join('{}-{}/input/molecules/mol1/conf{}/mol1_conf{}.xyz'.format(name, type, i, i)))
 
     # 4 Run RESPyte and PSI4
@@ -493,8 +500,8 @@ def create_respyte_input_files(type='RESP1', name='', resname='MOL', number_of_c
     This function performs the psi4 calculation and the respyte calculations and checks if the
     calculation was successful.
 
-    :param type: defines what type of QM calculation to perform
-    :param name: name of the compound
+    :param type: Defines what type of QM calculation to perform
+    :param name: Name of the compound
     :param number_of_conformers: Number of conformers used for this compound
     :return: 0 if successful
     """
@@ -576,9 +583,9 @@ def create_charge_file(name='', resname='MOL', delta=0.0, type='RESP1'):
     This function creates a MOL2 file with either RESP1 scaled charges or RESP2 charges
     with a certain mixing parameter.
 
-    :param name: name of the compound.
+    :param name: Name of the compound.
     :param resname: 3 letter abbreviation of the compound.
-    :param delta: mixing parameter given as absolute value ( not percent)
+    :param delta: Mixing parameter given as absolute value ( not percent)
     :param type: RESP1 or RESP2 type charges
     :return:
     """
@@ -683,6 +690,7 @@ def create_charge_file(name='', resname='MOL', delta=0.0, type='RESP1'):
 def create_RESP2(smi = None,folder='', opt=True, name='', resname='MOL', delta=1.0, density=None, hov=None, dielectric=None):
     """
     Creates a mol2 file with RESP2 charges from a mol2 file (resname.mol2) or from a smiles string.
+
     :param folder: folder to write the output files.
     :param opt: True when generated conformers should be locally optimized.
     :param name: Name of the compound

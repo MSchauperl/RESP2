@@ -10,8 +10,9 @@ A template to create RESP2 charges
 
 
 ### Installation
-RESP 2 relies on the openforcefield toolkit, ForceBalance, pybabel, psi4 and respyte. Although, you could
-install all these programs single handed, we highly recommend to install these programs via conda
+RESP 2 relies on the openeye-toolkits, ForceBalance, pybel, psi4 and respyte. 
+We recommend to install all dependencies via conda (except for respyte). 
+See Installation instructions: https://resp2.readthedocs.io
 
 
 ### Example
@@ -22,6 +23,8 @@ The example folder contains a few useful example how you can use the python API 
  - optimize all your molecules with psi4
  - RESP1 charges
  - RESP2 charges
+ - ForceBalance input files
+ - PDB files necessary for ForceBalance 
 
 
 ### Copyright

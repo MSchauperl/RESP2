@@ -10,19 +10,43 @@ Installation
 =========================================================
 To install all necessary packages we recommend to follow these steps.
 
-1.) Download the RESP2 package
+1.) Download the RESP2 package::
 
-2.) Install the Conda environment RESP2
+   git clone git@github.com:MSchauperl/RESP2.git
 
-3.) Install the RESP2 package
+2.) Install and activate the conda environment 'RESP2' ::
 
-4.) Download the respyte package
+   cd RESP2
+   conda env create -f devtools/conda-envs/RESP2_environment.yaml
+   conda activate RESP2
 
-5.) Install respyte package
+3.) Install the RESP2 package ::
+
+   python setup.py develop
+
+4.) Download the respyte package ::
+
+   cd ..
+   git clone https://github.com/lpwgroup/respyte.git
+
+5.) Install respyte package ::
+
+   cd respyte
+   python setup.py develop
+   cd ..
+
+
+Example
+========================================================
+
+See Jupyter notebook: https://github.com/MSchauperl/RESP2/blob/master/example/Ethanol_Example.ipynb
 
 
 Functions
 ========================================================
+
+RESP2 charge generation and ForceBalance Input generation
+----------------------------------------------------------
 .. automodule:: resp2.resp2
    :members:
 
