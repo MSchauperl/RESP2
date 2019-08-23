@@ -15,7 +15,7 @@ import sys, os
 try:
     from openeye import oechem
     from openeye import oeomega
-except:
+except ImportError:
     print('Could not load openeye!')
 import logging as log
 
@@ -26,7 +26,7 @@ except ModuleNotFoundError:
 try:
     import pybel
     import openbabel
-except:
+except ImportError:
     print('Could not import pybel')
 import shutil
 import glob
@@ -432,7 +432,7 @@ def create_respyte(type='RESP1', name='', resname='MOL', number_of_conformers=1,
 
     try:
         os.mkdir(mol_folder)
-    except:
+    except Exception:
         log.warning('folder {} already exists'.format(mol_folder))
 
     for i in range(1, number_of_conformers + 1):

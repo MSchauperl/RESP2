@@ -3,4 +3,4 @@ include MANIFEST.in
 include versioneer.py
 
 graft resp2
-global-exclude *.py[cod] __pycache__ *.so
+global-exclude *.py[cod] __pycache__ *.soinclude resp2/_version.py

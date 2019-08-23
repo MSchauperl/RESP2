@@ -7,16 +7,16 @@ This version was adapted for the use in the RESP2 package.
 try:
     from forcebalance.molecule import Molecule
     from forcebalance.nifty import which
-except:
+except ImportError:
     print('Could not import ForceBalance')
 try:
     from openeye import oechem
-except:
+except ImportErrorr:
     print('Could not import openeye')
 
 try:
     import openmoltools
-except:
+except ImportError:
     print('Could not import openmoltools')
 import os, sys, time, argparse, subprocess
 import shutil
@@ -185,7 +185,7 @@ def run_create_mol2_pdb(**kwargs):
 
     try:
         GenerateBox('%sS.pdb' % fullresname, '%s-box.pdb' % fullresname, boxlen, nmol, tries)
-    except:
+    except Exception:
         GenerateBox('%s.pdb' % fullresname, '%s-box.pdb' % fullresname, boxlen, nmol, tries)
     else:
         shutil.copyfile('%sS.pdb' % fullresname, '%s.pdb' % fullresname)
