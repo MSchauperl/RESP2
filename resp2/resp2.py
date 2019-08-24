@@ -15,7 +15,7 @@ import sys, os
 try:
     from openeye import oechem
     from openeye import oeomega
-except ImportError:
+except ModuleNotFoundError:
     print('Could not load openeye!')
 import logging as log
 
@@ -26,7 +26,7 @@ except ModuleNotFoundError:
 try:
     import pybel
     import openbabel
-except ImportError:
+except ModuleNotFoundError:
     print('Could not import pybel')
 import shutil
 import glob

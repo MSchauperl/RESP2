@@ -7,16 +7,16 @@ This version was adapted for the use in the RESP2 package.
 try:
     from forcebalance.molecule import Molecule
     from forcebalance.nifty import which
-except ImportError:
+except ModuleNotFoundError:
     print('Could not import ForceBalance')
 try:
     from openeye import oechem
-except ImportErrorr:
+except ModuleNotFoundError:
     print('Could not import openeye')
 
 try:
     import openmoltools
-except ImportError:
+except ModuleNotFoundError:
     print('Could not import openmoltools')
 import os, sys, time, argparse, subprocess
 import shutil
