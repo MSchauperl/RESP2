@@ -288,7 +288,7 @@ def create_conformers(infile=None, outfile=None, resname=None, folder= None, nam
     omega.SetEnumNitrogen(True)
     omega.SetSampleHydrogens(True)
     omega.SetEnergyWindow(9.0)
-    omega.SetMaxConfs(4)
+    omega.SetMaxConfs(5)
     omega.SetRangeIncrement(2)
     omega.SetRMSRange([0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5])
     filename = '{}-conformers'.format(resname)

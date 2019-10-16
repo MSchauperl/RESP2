@@ -1,0 +1,34 @@
+---
+version: '1.3'
+options:
+    anisotropic_dispersion_cutoff: 10.0*angstroms
+    checkpoint_interval: 50
+    default_number_of_iterations: 1000
+    experiments_dir: DEE_result
+    minimize: true
+    output_dir: .
+    pressure: 1*atmosphere
+    resume_setup: true
+    resume_simulation: true
+    temperature: 298.15*kelvin
+    verbose: false
+
+systems:
+    hydration-system:
+        phase1_path: [./DEE_solv.xml, ./DEE_solv.pdb]
+        phase2_path: [./DEE_vacuum.xml, ./DEE_vacuum.pdb]
+protocols:
+    hydration-protocol:
+        solvent1:
+            alchemical_path:
+                lambda_electrostatics: [1.0, 0.75, 0.5, 0.25, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+                lambda_sterics: [1.0, 1.0, 1.0, 1.0, 1.0, 0.95, 0.9, 0.8, 0.7, 0.6,
+                    0.5, 0.4, 0.35, 0.3, 0.25, 0.2, 0.15, 0.1, 0.05, 0.0]
+        solvent2:
+            alchemical_path:
+                lambda_electrostatics: [1.0, 0.75, 0.5, 0.25, 0.0]
+                lambda_sterics: [1.0, 1.0, 1.0, 1.0, 1.0]
+experiments:
+    protocol: hydration-protocol
+    system: hydration-system
